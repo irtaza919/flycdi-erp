@@ -1129,6 +1129,7 @@ class LangTrans
             'by_sales' => 'By Sales',
             'unit_sold' => 'Unit Sold',
             'import_products' => 'Import Products',
+            'import_variable_products' => 'Import Variable Products',
             'total_purchase_price' => 'Total Purchase Price',
             'total_sales_price' => 'Total Sales Price',
             'product_type' => 'Product Type',

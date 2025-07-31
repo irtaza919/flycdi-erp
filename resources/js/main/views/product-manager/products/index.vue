@@ -53,6 +53,12 @@
                             importUrl="products/import"
                             @onUploadSuccess="setUrlData"
                         />
+                        <ImportProducts
+                            :pageTitle="$t('product.import_variable_products')"
+                            :sampleFileUrl="variableSampleFileUrl"
+                            importUrl="products/import"
+                            @onUploadSuccess="setUrlData"
+                        />
                     </template>
                     <a-button
                         v-if="
@@ -500,6 +506,7 @@ export default {
             brand_id: undefined,
         });
         const sampleFileUrl = window.config.product_sample_file;
+        const variableSampleFileUrl = window.config.variable_product_sample_file;
 
         const categories = ref([]);
         const brands = ref([]);
@@ -735,6 +742,7 @@ export default {
             filterTreeNode,
             setUrlData,
             sampleFileUrl,
+            variableSampleFileUrl,
             productType,
 
             getVariableProductSalePrice,

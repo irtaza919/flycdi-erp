@@ -89,6 +89,7 @@
                 'verify_purchase_background': "{{ asset('images/verify_purchase_background.svg') }}",
                 'login_background': "{{ asset('images/login_background.svg') }}",
                 'product_sample_file': "{{ asset('images/sample_products.csv') }}",
+                'variable_product_sample_file': "{{ asset('images/sample_variable_products.csv') }}",
                 'category_sample_file': "{{ asset('images/sample_categories.csv') }}",
                 'brand_sample_file': "{{ asset('images/sample_brands.csv') }}",
                 'customer_sample_file': "{{ asset('images/sample_customers.csv') }}",

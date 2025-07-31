@@ -1,0 +1,4 @@
+name,item_code,barcode_symbology,description,unit,category,brand,tax,mrp,purchase_price,sales_price,purchase_tax_type,sales_tax_type,stock_quantitiy_alert,opening_stock,opening_stock_date,wholesale_price,wholesale_quantity,warehouse,parent_id
+S21 Pro,6786883,CODE128,,piece,Mobiles,Sony,GST,800,650,700,exclusive,exclusive,10,20,,,,Electronifly,
+S21 Pro - 128GB,6786884,CODE128,,piece,Mobiles,Sony,GST,820,670,730,exclusive,exclusive,5,10,,,,Electronifly,6786883
+S21 Pro - 256GB,6786885,CODE128,,piece,Mobiles,Sony,GST,850,700,780,exclusive,exclusive,5,10,,,,Electronifly,6786883
