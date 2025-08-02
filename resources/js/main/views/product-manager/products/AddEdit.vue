@@ -519,7 +519,7 @@
                     "
                 >
                     <a-form-item
-                        :label="$t('product.sales_price')"
+                        :label="$t('product.retail_price')"
                         name="sales_price"
                         :help="rules.sales_price ? rules.sales_price.message : null"
                         :validateStatus="rules.sales_price ? 'error' : null"
@@ -529,7 +529,53 @@
                             v-model:value="formData.sales_price"
                             :placeholder="
                                 $t('common.placeholder_default_text', [
-                                    $t('product.sales_price'),
+                                    $t('product.retail_price'),
+                                ])
+                            "
+                            min="0"
+                            style="width: 100%"
+                        >
+                            <template #addonBefore>
+                                {{ appSetting.currency.symbol }}
+                            </template>
+                            <template #addonAfter>
+                                <a-select
+                                    v-model:value="formData.sales_tax_type"
+                                    style="width: 120px"
+                                >
+                                    <a-select-option value="inclusive">
+                                        {{ $t("common.with_tax") }}
+                                    </a-select-option>
+                                    <a-select-option value="exclusive">
+                                        {{ $t("common.without_tax") }}
+                                    </a-select-option>
+                                </a-select>
+                            </template>
+                        </a-input-number>
+                    </a-form-item>
+                </a-col>
+                <a-col
+                    :xs="24"
+                    :sm="24"
+                    :md="8"
+                    :lg="8"
+                    v-if="
+                        formData.product_type == 'single' ||
+                        formData.product_type == 'service'
+                    "
+                >
+                    <a-form-item
+                        :label="$t('product.whole_sale_price')"
+                        name="whole_sale_price"
+                        :help="rules.whole_sale_price ? rules.whole_sale_price.message : null"
+                        :validateStatus="rules.whole_sale_price ? 'error' : null"
+                        class="required"
+                    >
+                        <a-input-number
+                            v-model:value="formData.whole_sale_price"
+                            :placeholder="
+                                $t('common.placeholder_default_text', [
+                                    $t('product.whole_sale_price'),
                                 ])
                             "
                             min="0"
@@ -957,6 +1003,7 @@ export default defineComponent({
                 item_code: "",
                 purchase_price: "",
                 sales_price: "",
+                whole_sale_price: "",
                 value: option.name,
                 mrp: "",
                 opening_stock: "",

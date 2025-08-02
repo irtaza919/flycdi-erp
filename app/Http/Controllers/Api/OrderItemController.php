@@ -42,7 +42,7 @@ class OrderItemController extends ApiBaseController
                 ->where('orders.order_type', 'sales')
                 ->groupBy('order_items.product_id')
                 ->selectRaw("order_items.product_id, products.name, products.item_code, sum(order_items.quantity) as unit_sold, sum(order_items.subtotal) as total_sales_price")
-                ->with('product:id,name,image,unit_id', 'product.unit:id,name,short_name', 'product.details:id,product_id,purchase_price,sales_price');
+                ->with('product:id,name,image,unit_id', 'product.unit:id,name,short_name', 'product.details:id,product_id,purchase_price,sales_price,whole_sale_price');
 
             if ($request->has('category_id') && $request->category_id != '') {
                 $categoryId = $this->getIdFromHash($request->category_id);

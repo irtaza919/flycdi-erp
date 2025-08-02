@@ -34,7 +34,8 @@ class PosController extends ApiBaseController
             'product_details.sales_tax_type',
             'product_details.tax_id',
             'product_details.current_stock',
-            'taxes.rate'
+            'taxes.rate',
+            'product_details.whole_sale_price'
         )
             ->join('product_details', 'product_details.product_id', '=', 'products.id')
             ->leftJoin('taxes', 'taxes.id', '=', 'product_details.tax_id')
@@ -97,6 +98,7 @@ class PosController extends ApiBaseController
                 'item_id'    =>  '',
                 'xid'    =>  $product->xid,
                 'name'    =>  $product->name,
+                'whole_sale_price'    =>  $product->whole_sale_price,
                 'image'    =>  $product->image,
                 'image_url'    =>  $product->image_url,
                 'discount_rate'    =>  0,

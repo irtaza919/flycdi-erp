@@ -146,6 +146,7 @@ class ProductController extends ApiBaseController
                     $productDetails->mrp = $allVariation['mrp'];
                     $productDetails->purchase_price = $allVariation['purchase_price'];
                     $productDetails->sales_price = $allVariation['sales_price'];
+                    $productDetails->whole_sale_price = $allVariation['whole_sale_price'];
                     $productDetails->purchase_tax_type = $allVariation['purchase_tax_type'];
                     $productDetails->sales_tax_type = $allVariation['sales_tax_type'];
                     $productDetails->stock_quantitiy_alert = isset($allVariation['stock_quantitiy_alert']) ? $allVariation['stock_quantitiy_alert'] : null;
@@ -176,6 +177,7 @@ class ProductController extends ApiBaseController
                 $productDetails->mrp = $request->mrp;
                 $productDetails->purchase_price = $request->purchase_price;
                 $productDetails->sales_price = $request->sales_price;
+                $productDetails->whole_sale_price = $request->whole_sale_price;
                 $productDetails->purchase_tax_type = $request->purchase_tax_type;
                 $productDetails->sales_tax_type = $request->sales_tax_type;
                 $productDetails->stock_quantitiy_alert = $request->has('stock_quantitiy_alert') && $request->stock_quantitiy_alert != '' ? $request->stock_quantitiy_alert : null;
@@ -274,6 +276,7 @@ class ProductController extends ApiBaseController
                         $productDetails->mrp = $allVariation['mrp'];
                         $productDetails->purchase_price = $allVariation['purchase_price'];
                         $productDetails->sales_price = $allVariation['sales_price'];
+                        $productDetails->whole_sale_price = $allVariation['whole_sale_price'];
                         $productDetails->purchase_tax_type = $allVariation['purchase_tax_type'];
                         $productDetails->sales_tax_type = $allVariation['sales_tax_type'];
                         $productDetails->stock_quantitiy_alert = $request->stock_quantitiy_alert;
@@ -323,6 +326,7 @@ class ProductController extends ApiBaseController
                     $currentProductDetails->tax_id = isset($allVariation['tax_id']) && $allVariation['tax_id'] != '' ? $allVariation['tax_id'] : null;
                     $currentProductDetails->mrp = $allVariation['mrp'];
                     $currentProductDetails->purchase_price = $allVariation['purchase_price'];
+                    $currentProductDetails->whole_sale_price = $allVariation['whole_sale_price'];
                     $currentProductDetails->sales_price = $allVariation['sales_price'];
                     $currentProductDetails->purchase_tax_type = $allVariation['purchase_tax_type'];
                     $currentProductDetails->sales_tax_type = $allVariation['sales_tax_type'];
@@ -343,6 +347,7 @@ class ProductController extends ApiBaseController
             $currentProductDetails->mrp = $request->mrp;
             $currentProductDetails->purchase_price = $request->purchase_price;
             $currentProductDetails->sales_price = $request->sales_price;
+            $currentProductDetails->whole_sale_price = $request->whole_sale_price;
             $currentProductDetails->purchase_tax_type = $request->purchase_tax_type;
             $currentProductDetails->sales_tax_type = $request->sales_tax_type;
             $currentProductDetails->stock_quantitiy_alert = $request->stock_quantitiy_alert;
@@ -453,6 +458,7 @@ class ProductController extends ApiBaseController
                     'x_unit_id'    =>  Hashids::encode($product->unit_id),
                     'unit'    =>  $unit,
                     'unit_price'    =>  $unitPrice,
+                    'whole_sale_price'    =>  $product->whole_sale_price,
                     'single_unit_price'    =>  $singleUnitPrice,
                     'subtotal'    =>  $subTotal,
                     'quantity'    =>  1,
@@ -470,7 +476,8 @@ class ProductController extends ApiBaseController
                     'image'    =>  $product->image,
                     'image_url'    =>  $product->image_url,
                     'stock_quantity'    =>  $productDetails->current_stock,
-                    'product_type' => $product->product_type
+                    'product_type' => $product->product_type,
+                    'whole_sale_price'    =>  $product->whole_sale_price,
                 ];
             }
         }

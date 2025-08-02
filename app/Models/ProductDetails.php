@@ -19,7 +19,7 @@ class ProductDetails extends BaseModel
 
     protected $appends = ['xid', 'x_warehouse_id', 'x_product_id', 'x_tax_id'];
 
-    protected $filterable = ['id'];
+    protected $filterable = ['id', 'whole_sale_price'];
 
     protected $hashableGetterFunctions = [
         'getXWarehouseIdAttribute' => 'warehouse_id',
@@ -35,6 +35,7 @@ class ProductDetails extends BaseModel
         'mrp' => 'double',
         'purchase_price' => 'double',
         'sales_price' => 'double',
+        'whole_sale_price' => 'double',
         'stock_quantitiy_alert' => 'double',
         'opening_stock' => 'double',
         'wholesale_price' => 'double',
