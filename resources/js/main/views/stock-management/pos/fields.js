@@ -65,6 +65,7 @@ const fields = () => {
         const productsPromise = axiosAdmin.post("pos/products", {
             brand_id: formData.value.brand_id,
             category_id: formData.value.category_id,
+            price: "retail"
         });
         const defaultWalkinCustomerPromise = axiosAdmin.get(
             "default-walkin-customer"

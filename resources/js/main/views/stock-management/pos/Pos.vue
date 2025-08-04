@@ -134,6 +134,32 @@
                                         </span>
                                     </a-col>
                                 </a-row>
+                                <a-row class="mt-20 mb-30">
+                            <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+                                <a-select
+                                v-model:value="formData.user_id"
+                                :placeholder="$t('user.walk_in_customer')"
+                                style="width: 100%"
+                                optionFilterProp="title"
+                                show-search
+                                >
+                                <a-select-option
+                                    :value="'wholesale'"
+                                    :title="'Whole Sale Price'"
+                                >
+                                    Whole Sale Price
+                                </a-select-option>
+
+                                <a-select-option
+                                    :value="'retail'"
+                                    :title="'Retail Price'"
+                                >
+                                    Retail Price
+                                </a-select-option>
+                                </a-select>
+                            </a-col>
+                                 </a-row>
+
                             </div>
                         </a-card>
                     </div>
@@ -916,7 +942,7 @@
 </template>
 
 <script>
-import { ref, onMounted, reactive, toRefs, nextTick } from "vue";
+import { ref, onMounted, reactive, watch, toRefs, nextTick } from "vue";
 import {
     ShoppingCartOutlined,
     PlusOutlined,
@@ -1012,16 +1038,27 @@ export default {
             getPreFetchData();
         });
 
-        const reFetchProducts = () => {
-            axiosAdmin
-                .post("pos/products", {
-                    brand_id: formData.value.brand_id,
-                    category_id: formData.value.category_id,
-                })
-                .then((productResponse) => {
-                    productLists.value = productResponse.data.products;
-                });
-        };
+      
+
+
+    const reFetchProducts = () => {
+    axiosAdmin
+        .post("pos/products", {
+            brand_id: formData.value.brand_id,
+            category_id: formData.value.category_id,
+            price: formData.value.price_type  
+        })
+        .then((productResponse) => {
+            productLists.value = productResponse.data.products;
+        });
+    };
+
+
+    watch(() => formData.price_type, (newVal) => {
+  console.log("Price type changed:", newVal);
+  reFetchProducts();
+});
+
 
         const fetchProducts = debounce((value) => {
             fetchAllSearchedProduct(value);
@@ -1066,13 +1103,18 @@ export default {
         };
 
         const selectSaleProduct = (newProduct) => {
+            const priceType = formData.value.price_type || "retail";
+            const unitPrice = priceType === "wholesale"
+            ? newProduct.wholesale_price
+            : newProduct.retail_price;
+
             if (!includes(selectedProductIds.value, newProduct.xid)) {
                 selectedProductIds.value.push(newProduct.xid);
 
                 selectedProducts.value.push({
                     ...newProduct,
                     sn: selectedProducts.value.length + 1,
-                    unit_price: formatAmount(newProduct.unit_price),
+                    unit_price: formatAmount(unitPrice),
                     tax_amount: formatAmount(newProduct.tax_amount),
                     subtotal: formatAmount(newProduct.subtotal),
                 });
@@ -1287,6 +1329,7 @@ export default {
 
             formData.value = {
                 ...formData.value,
+                price_type: "retail",
                 tax_id: undefined,
                 category_id: undefined,
                 brand_id: undefined,
