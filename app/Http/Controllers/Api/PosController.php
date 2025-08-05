@@ -125,20 +125,188 @@ class PosController extends ApiBaseController
     //     return ApiResponse::make('Data fetched', $data);
     // }
 
+    // public function posProducts(PosProductRequest $request)
+    // {
+    //     $request = request();
+    //     $request->validate([
+    //         'price' => 'in:retail,wholesale',
+    //     ]);
+    //     $allProducs = [];
+    //     $warehouse = warehouse();
+    //     $warehouseId = $warehouse->id;
+
+    //     $priceType = $request->has('price') ? $request->price : 'retail';
+
+    //     $products = Product::select(
+    //         'products.id',
+    //         'products.name',
+    //         'products.image',
+    //         'products.product_type',
+    //         'product_details.sales_price',
+    //         'product_details.whole_sale_price',
+    //         'products.unit_id',
+    //         'product_details.sales_tax_type',
+    //         'product_details.tax_id',
+    //         'product_details.current_stock',
+    //         'taxes.rate'
+    //     )
+    //         ->join('product_details', 'product_details.product_id', '=', 'products.id')
+    //         ->leftJoin('taxes', 'taxes.id', '=', 'product_details.tax_id')
+    //         ->join('units', 'units.id', '=', 'products.unit_id')
+    //         ->where('product_details.warehouse_id', '=', $warehouseId);
+
+
+    //     $products = $products->where(function ($query) {
+    //         $query->where(function ($qry) {
+    //             $qry->where('products.product_type', '!=', 'service')
+    //                 ->where('product_details.current_stock', '>', 0);
+    //         })->orWhere('products.product_type', '=', 'service');
+    //     });
+
+    //     if ($warehouse->products_visibility == 'warehouse') {
+    //         $products->where('products.warehouse_id', '=', $warehouse->id);
+    //     }
+
+
+
+    //     if ($request->has('category_id') && $request->category_id != "") {
+    //         $categoryId = $this->getIdFromHash($request->category_id);
+    //         $products->where('category_id', '=', $categoryId);
+    //     }
+
+
+    //     if ($request->has('brand_id') && $request->brand_id != "") {
+    //         $brandId = $this->getIdFromHash($request->brand_id);
+    //         $products->where('brand_id', '=', $brandId);
+    //     }
+
+
+    //     $products = $products->get();
+
+    //     foreach ($products as $product) {
+    //         $stockQuantity = $product->current_stock;
+    //         $unit = $product->unit_id ? Unit::find($product->unit_id) : null;
+    //         $tax = $product->tax_id ? Tax::find($product->tax_id) : null;
+    //         $taxType = $product->sales_tax_type;
+
+    //         // if ($priceType === 'wholesale') {
+    //         //     $unitPrice = $product->whole_sale_price;
+    //         // } else {
+    //         //     $unitPrice = $product->sales_price;
+    //         // }
+    //         if ($priceType === 'wholesale') {
+    //             $unitPrice = $product->whole_sale_price;
+
+    //             // If wholesale price is null, 0, or not set — force all values to zero
+    //             if (empty($unitPrice)) {
+    //                 $unitPrice = 0;
+    //                 $singleUnitPrice = 0;
+    //                 $taxAmount = 0;
+    //                 $taxRate = 0;
+    //                 $subTotal = 0;
+    //             } else {
+    //                 $singleUnitPrice = $unitPrice;
+
+    //                 if ($product->rate != '') {
+    //                     $taxRate = $product->rate;
+
+    //                     if ($product->sales_tax_type == 'inclusive') {
+    //                         $subTotal = $singleUnitPrice;
+    //                         $singleUnitPrice = ($singleUnitPrice * 100) / (100 + $taxRate);
+    //                         $taxAmount = ($singleUnitPrice) * ($taxRate / 100);
+    //                     } else {
+    //                         $taxAmount = ($singleUnitPrice * ($taxRate / 100));
+    //                         $subTotal = $singleUnitPrice + $taxAmount;
+    //                     }
+    //                 } else {
+    //                     $taxAmount = 0;
+    //                     $taxRate = 0;
+    //                     $subTotal = $singleUnitPrice;
+    //                 }
+    //             }
+    //         } else {
+    //             // Retail case (doesn't require this check unless you want similar logic)
+    //             $unitPrice = $product->sales_price;
+    //             $singleUnitPrice = $unitPrice;
+
+    //             if ($product->rate != '') {
+    //                 $taxRate = $product->rate;
+
+    //                 if ($product->sales_tax_type == 'inclusive') {
+    //                     $subTotal = $singleUnitPrice;
+    //                     $singleUnitPrice = ($singleUnitPrice * 100) / (100 + $taxRate);
+    //                     $taxAmount = ($singleUnitPrice) * ($taxRate / 100);
+    //                 } else {
+    //                     $taxAmount = ($singleUnitPrice * ($taxRate / 100));
+    //                     $subTotal = $singleUnitPrice + $taxAmount;
+    //                 }
+    //             } else {
+    //                 $taxAmount = 0;
+    //                 $taxRate = 0;
+    //                 $subTotal = $singleUnitPrice;
+    //             }
+    //         }
+
+    //         $singleUnitPrice = $unitPrice;
+
+    //         if ($product->rate != '') {
+    //             $taxRate = $product->rate;
+
+    //             if ($product->sales_tax_type == 'inclusive') {
+    //                 $subTotal = $singleUnitPrice;
+    //                 $singleUnitPrice = ($singleUnitPrice * 100) / (100 + $taxRate);
+    //                 $taxAmount = ($singleUnitPrice) * ($taxRate / 100);
+    //             } else {
+    //                 $taxAmount = ($singleUnitPrice * ($taxRate / 100));
+    //                 $subTotal = $singleUnitPrice + $taxAmount;
+    //             }
+    //         } else {
+    //             $taxAmount = 0;
+    //             $taxRate = 0;
+    //             $subTotal = $singleUnitPrice;
+    //         }
+
+    //         $allProducs[] = [
+    //             'item_id'           => '',
+    //             'xid'               => $product->xid,
+    //             'name'              => $product->name,
+    //             'whole_sale_price'  => $product->whole_sale_price,
+    //             'image'             => $product->image,
+    //             'image_url'         => $product->image_url,
+    //             'discount_rate'     => 0,
+    //             'total_discount'    => 0,
+    //             'x_tax_id'          => $tax ? $tax->xid : null,
+    //             'tax_type'          => $taxType,
+    //             'tax_rate'          => $taxRate,
+    //             'total_tax'         => $taxAmount,
+    //             'x_unit_id'         => $unit ? $unit->xid : null,
+    //             'unit'              => $unit,
+    //             'unit_price'        => $unitPrice,
+    //             'single_unit_price' => $singleUnitPrice,
+    //             'subtotal'          => $subTotal,
+    //             'quantity'          => 1,
+    //             'stock_quantity'    => $stockQuantity,
+    //             'unit_short_name'   => $unit ? $unit->short_name : '',
+    //             'product_type'      => $product->product_type
+    //         ];
+    //     }
+
+    //     return ApiResponse::make('Data fetched', ['products' => $allProducs]);
+    // }
+
     public function posProducts(PosProductRequest $request)
     {
-        // return "ok";
-        // dd($request->price);
         $request = request();
         $request->validate([
             'price' => 'in:retail,wholesale',
         ]);
+
         $allProducs = [];
         $warehouse = warehouse();
         $warehouseId = $warehouse->id;
 
+        $priceType = $request->has('price_type') ? $request->price_type : 'retail';
 
-        $priceType = $request->has('price') ? $request->price : 'retail';
         $products = Product::select(
             'products.id',
             'products.name',
@@ -151,7 +319,11 @@ class PosController extends ApiBaseController
             'product_details.tax_id',
             'product_details.current_stock',
             'taxes.rate'
-        )->join('product_details', 'product_details.product_id', '=', 'products.id')->leftJoin('taxes', 'taxes.id', '=', 'product_details.tax_id')->join('units', 'units.id', '=', 'products.unit_id')->where('product_details.warehouse_id', '=', $warehouseId);
+        )
+            ->join('product_details', 'product_details.product_id', '=', 'products.id')
+            ->leftJoin('taxes', 'taxes.id', '=', 'product_details.tax_id')
+            ->join('units', 'units.id', '=', 'products.unit_id')
+            ->where('product_details.warehouse_id', '=', $warehouseId);
 
         $products = $products->where(function ($query) {
             $query->where(function ($qry) {
@@ -160,32 +332,21 @@ class PosController extends ApiBaseController
             })->orWhere('products.product_type', '=', 'service');
         });
 
-
         if ($warehouse->products_visibility == 'warehouse') {
             $products->where('products.warehouse_id', '=', $warehouse->id);
         }
 
-
-
-        // Category Filter
         if ($request->has('category_id') && $request->category_id != "") {
             $categoryId = $this->getIdFromHash($request->category_id);
             $products->where('category_id', '=', $categoryId);
         }
 
-
-        // Brand Filter
         if ($request->has('brand_id') && $request->brand_id != "") {
             $brandId = $this->getIdFromHash($request->brand_id);
             $products->where('brand_id', '=', $brandId);
         }
 
-        dd($products);
-
-        return $products;
-
         $products = $products->get();
-
 
         foreach ($products as $product) {
             $stockQuantity = $product->current_stock;
@@ -193,30 +354,64 @@ class PosController extends ApiBaseController
             $tax = $product->tax_id ? Tax::find($product->tax_id) : null;
             $taxType = $product->sales_tax_type;
 
-            // Choose price based on 'price' param
+            // Default tax values
+            $taxAmount = 0;
+            $taxRate = 0;
+            $subTotal = 0;
+            $unitPrice = 0;
+            $singleUnitPrice = 0;
+
             if ($priceType === 'wholesale') {
                 $unitPrice = $product->whole_sale_price;
-            } else {
-                $unitPrice = $product->sales_price;
-            }
 
-            $singleUnitPrice = $unitPrice;
-
-            if ($product->rate != '') {
-                $taxRate = $product->rate;
-
-                if ($product->sales_tax_type == 'inclusive') {
-                    $subTotal = $singleUnitPrice;
-                    $singleUnitPrice = ($singleUnitPrice * 100) / (100 + $taxRate);
-                    $taxAmount = ($singleUnitPrice) * ($taxRate / 100);
+                if (empty($unitPrice)) {
+                    // Keep everything zero
+                    $unitPrice = 0;
+                    $singleUnitPrice = 0;
+                    $taxAmount = 0;
+                    $taxRate = 0;
+                    $subTotal = 0;
                 } else {
-                    $taxAmount = ($singleUnitPrice * ($taxRate / 100));
-                    $subTotal = $singleUnitPrice + $taxAmount;
+                    $singleUnitPrice = $unitPrice;
+
+                    if ($product->rate != '') {
+                        $taxRate = $product->rate;
+
+                        if ($product->sales_tax_type == 'inclusive') {
+                            $subTotal = $singleUnitPrice;
+                            $singleUnitPrice = ($singleUnitPrice * 100) / (100 + $taxRate);
+                            $taxAmount = ($singleUnitPrice) * ($taxRate / 100);
+                        } else {
+                            $taxAmount = ($singleUnitPrice * ($taxRate / 100));
+                            $subTotal = $singleUnitPrice + $taxAmount;
+                        }
+                    } else {
+                        $taxAmount = 0;
+                        $taxRate = 0;
+                        $subTotal = $singleUnitPrice;
+                    }
                 }
             } else {
-                $taxAmount = 0;
-                $taxRate = 0;
-                $subTotal = $singleUnitPrice;
+                // Retail
+                $unitPrice = $product->sales_price;
+                $singleUnitPrice = $unitPrice;
+
+                if ($product->rate != '') {
+                    $taxRate = $product->rate;
+
+                    if ($product->sales_tax_type == 'inclusive') {
+                        $subTotal = $singleUnitPrice;
+                        $singleUnitPrice = ($singleUnitPrice * 100) / (100 + $taxRate);
+                        $taxAmount = ($singleUnitPrice) * ($taxRate / 100);
+                    } else {
+                        $taxAmount = ($singleUnitPrice * ($taxRate / 100));
+                        $subTotal = $singleUnitPrice + $taxAmount;
+                    }
+                } else {
+                    $taxAmount = 0;
+                    $taxRate = 0;
+                    $subTotal = $singleUnitPrice;
+                }
             }
 
             $allProducs[] = [
@@ -246,6 +441,7 @@ class PosController extends ApiBaseController
 
         return ApiResponse::make('Data fetched', ['products' => $allProducs]);
     }
+
 
     public function addPosPayment(PosRequest $request)
     {

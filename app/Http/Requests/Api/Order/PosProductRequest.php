@@ -24,7 +24,7 @@ class PosProductRequest extends FormRequest
 	public function rules()
 	{
 		$rules = [
-			'price' => 'in:retail,wholesale',
+			'price_type' => 'nullable|in:retail,wholesale',
 		];
 
 		return $rules;
