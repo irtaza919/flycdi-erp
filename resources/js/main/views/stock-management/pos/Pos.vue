@@ -26,7 +26,12 @@
                                     :value="customer.xid"
                                 >
                                     {{ customer.name }}
-                                    <span v-if="customer.phone && customer.phone != ''">
+                                    <span
+                                        v-if="
+                                            customer.phone &&
+                                            customer.phone != ''
+                                        "
+                                    >
                                         <br />
                                         {{ customer.phone }}
                                     </span>
@@ -50,14 +55,25 @@
             <a-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
                 <div class="pos-left-wrapper">
                     <div class="pos-left-header">
-                        <a-card class="left-pos-top" :style="{ marginBottom: '10px' }">
+                        <a-card
+                            class="left-pos-top"
+                            :style="{ marginBottom: '10px' }"
+                        >
                             <div class="bill-filters">
                                 <a-row :gutter="16">
-                                    <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+                                    <a-col
+                                        :xs="24"
+                                        :sm="24"
+                                        :md="24"
+                                        :lg="24"
+                                        :xl="24"
+                                    >
                                         <span style="display: flex">
                                             <a-select
                                                 v-model:value="formData.user_id"
-                                                :placeholder="$t('user.walk_in_customer')"
+                                                :placeholder="
+                                                    $t('user.walk_in_customer')
+                                                "
                                                 style="width: 100%"
                                                 optionFilterProp="title"
                                                 show-search
@@ -87,7 +103,13 @@
                                     </a-col>
                                 </a-row>
                                 <a-row class="mt-20 mb-30">
-                                    <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+                                    <a-col
+                                        :xs="24"
+                                        :sm="24"
+                                        :md="24"
+                                        :lg="24"
+                                        :xl="24"
+                                    >
                                         <span style="display: flex">
                                             <a-select
                                                 :value="null"
@@ -95,22 +117,31 @@
                                                 show-search
                                                 :filter-option="false"
                                                 :placeholder="
-                                                    $t('product.search_scan_product')
+                                                    $t(
+                                                        'product.search_scan_product'
+                                                    )
                                                 "
                                                 style="width: 100%"
                                                 :not-found-content="
-                                                    productFetching ? undefined : null
+                                                    productFetching
+                                                        ? undefined
+                                                        : null
                                                 "
                                                 @search="
                                                     (searchedValue) => {
-                                                        orderSearchTerm = searchedValue;
-                                                        fetchProducts(searchedValue);
+                                                        orderSearchTerm =
+                                                            searchedValue;
+                                                        fetchProducts(
+                                                            searchedValue
+                                                        );
                                                     }
                                                 "
                                                 option-label-prop="label"
                                                 @focus="products = []"
                                                 @select="searchValueSelected"
-                                                @inputKeyDown="inputValueChanged"
+                                                @inputKeyDown="
+                                                    inputValueChanged
+                                                "
                                             >
                                                 <template #suffixIcon>
                                                     <SearchOutlined />
@@ -134,6 +165,40 @@
                                         </span>
                                     </a-col>
                                 </a-row>
+                                <a-row class="mt-20 mb-30">
+                                    <a-col
+                                        :xs="24"
+                                        :sm="24"
+                                        :md="24"
+                                        :lg="24"
+                                        :xl="24"
+                                    >
+                                        <a-select
+                                            v-model:value="formData.price_type"
+                                            :placeholder="
+                                                $t('product.select_price_type')
+                                            "
+                                            style="width: 100%"
+                                            optionFilterProp="title"
+                                            show-search
+                                        >
+                                            <a-select-option
+                                                :value="'wholesale'"
+                                            >
+                                            {{ $t('product.whole_sale_price') }}
+                                            </a-select-option>
+
+                                            <a-select-option
+                                                :value="'retail'"
+                                                :title="'Retail Price'"
+                                            >
+                                            {{ $t('product.retail_price') }}
+
+                                                <!-- Retail Price -->
+                                            </a-select-option>
+                                        </a-select>
+                                    </a-col>
+                                </a-row>
                             </div>
                         </a-card>
                     </div>
@@ -145,17 +210,32 @@
                             <div class="bill-body">
                                 <div class="bill-table">
                                     <a-row class="mt-20 mb-30">
-                                        <a-col :xs="24" :sm="24" :md="24" :lg="24">
+                                        <a-col
+                                            :xs="24"
+                                            :sm="24"
+                                            :md="24"
+                                            :lg="24"
+                                        >
                                             <a-table
-                                                :row-key="(record) => record.xid"
+                                                :row-key="
+                                                    (record) => record.xid
+                                                "
                                                 :dataSource="selectedProducts"
                                                 :columns="orderItemColumns"
                                                 :pagination="false"
                                                 size="middle"
                                             >
-                                                <template #bodyCell="{ column, record }">
+                                                <template
+                                                    #bodyCell="{
+                                                        column,
+                                                        record,
+                                                    }"
+                                                >
                                                     <template
-                                                        v-if="column.dataIndex === 'name'"
+                                                        v-if="
+                                                            column.dataIndex ===
+                                                            'name'
+                                                        "
                                                     >
                                                         {{ record.name }} <br />
                                                         <small
@@ -164,9 +244,13 @@
                                                                 'service'
                                                             "
                                                         >
-                                                            <a-typography-text code>
+                                                            <a-typography-text
+                                                                code
+                                                            >
                                                                 {{
-                                                                    $t("product.avl_qty")
+                                                                    $t(
+                                                                        "product.avl_qty"
+                                                                    )
                                                                 }}
                                                                 {{
                                                                     `${record.stock_quantity}${record.unit_short_name}`
@@ -187,7 +271,9 @@
                                                             "
                                                             :min="0"
                                                             @change="
-                                                                quantityChanged(record)
+                                                                quantityChanged(
+                                                                    record
+                                                                )
                                                             "
                                                         />
                                                     </template>
@@ -205,12 +291,15 @@
                                                     </template>
                                                     <template
                                                         v-if="
-                                                            column.dataIndex === 'action'
+                                                            column.dataIndex ===
+                                                            'action'
                                                         "
                                                     >
                                                         <a-button
                                                             type="primary"
-                                                            @click="editItem(record)"
+                                                            @click="
+                                                                editItem(record)
+                                                            "
                                                             style="
                                                                 margin-left: 4px;
                                                                 margin-top: 4px;
@@ -223,7 +312,9 @@
                                                         <a-button
                                                             type="primary"
                                                             @click="
-                                                                showDeleteConfirm(record)
+                                                                showDeleteConfirm(
+                                                                    record
+                                                                )
                                                             "
                                                             style="
                                                                 margin-left: 4px;
@@ -247,14 +338,23 @@
                         <a-card>
                             <div class="bill-footer">
                                 <a-row :gutter="[16, 16]">
-                                    <a-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
-                                        <a-form-item :label="$t('stock.order_tax')">
+                                    <a-col
+                                        :xs="24"
+                                        :sm="24"
+                                        :md="8"
+                                        :lg="8"
+                                        :xl="8"
+                                    >
+                                        <a-form-item
+                                            :label="$t('stock.order_tax')"
+                                        >
                                             <a-select
                                                 v-model:value="formData.tax_id"
                                                 :placeholder="
-                                                    $t('common.select_default_text', [
-                                                        $t('stock.order_tax'),
-                                                    ])
+                                                    $t(
+                                                        'common.select_default_text',
+                                                        [$t('stock.order_tax')]
+                                                    )
                                                 "
                                                 :allowClear="true"
                                                 style="width: 100%"
@@ -266,24 +366,45 @@
                                                     :value="tax.xid"
                                                     :tax="tax"
                                                 >
-                                                    {{ tax.name }} ({{ tax.rate }}%)
+                                                    {{ tax.name }} ({{
+                                                        tax.rate
+                                                    }}%)
                                                 </a-select-option>
                                             </a-select>
                                         </a-form-item>
                                     </a-col>
-                                    <a-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
-                                        <a-form-item :label="$t('stock.discount')">
+                                    <a-col
+                                        :xs="24"
+                                        :sm="24"
+                                        :md="8"
+                                        :lg="8"
+                                        :xl="8"
+                                    >
+                                        <a-form-item
+                                            :label="$t('stock.discount')"
+                                        >
                                             <a-input-group compact>
                                                 <a-select
-                                                    v-model:value="formData.discount_type"
-                                                    @change="recalculateFinalTotal"
+                                                    v-model:value="
+                                                        formData.discount_type
+                                                    "
+                                                    @change="
+                                                        recalculateFinalTotal
+                                                    "
                                                     style="width: 30%"
                                                 >
-                                                    <a-select-option value="percentage">
+                                                    <a-select-option
+                                                        value="percentage"
+                                                    >
                                                         %
                                                     </a-select-option>
-                                                    <a-select-option value="fixed">
-                                                        {{ appSetting.currency.symbol }}
+                                                    <a-select-option
+                                                        value="fixed"
+                                                    >
+                                                        {{
+                                                            appSetting.currency
+                                                                .symbol
+                                                        }}
                                                     </a-select-option>
                                                 </a-select>
                                                 <a-input-number
@@ -293,20 +414,36 @@
                                                     :placeholder="
                                                         $t(
                                                             'common.placeholder_default_text',
-                                                            [$t('stock.discount')]
+                                                            [
+                                                                $t(
+                                                                    'stock.discount'
+                                                                ),
+                                                            ]
                                                         )
                                                     "
-                                                    @change="recalculateFinalTotal"
+                                                    @change="
+                                                        recalculateFinalTotal
+                                                    "
                                                     min="0"
                                                     style="width: 70%"
                                                 />
                                             </a-input-group>
                                         </a-form-item>
                                     </a-col>
-                                    <a-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
-                                        <a-form-item :label="$t('stock.shipping')">
+                                    <a-col
+                                        :xs="24"
+                                        :sm="24"
+                                        :md="8"
+                                        :lg="8"
+                                        :xl="8"
+                                    >
+                                        <a-form-item
+                                            :label="$t('stock.shipping')"
+                                        >
                                             <a-input-number
-                                                v-model:value="formData.shipping"
+                                                v-model:value="
+                                                    formData.shipping
+                                                "
                                                 :placeholder="
                                                     $t(
                                                         'common.placeholder_default_text',
@@ -318,7 +455,10 @@
                                                 style="width: 100%"
                                             >
                                                 <template #addonBefore>
-                                                    {{ appSetting.currency.symbol }}
+                                                    {{
+                                                        appSetting.currency
+                                                            .symbol
+                                                    }}
                                                 </template>
                                             </a-input-number>
                                         </a-form-item>
@@ -338,10 +478,19 @@
                             }"
                         >
                             <a-row :gutter="16">
-                                <a-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
+                                <a-col
+                                    :xs="24"
+                                    :sm="24"
+                                    :md="10"
+                                    :lg="10"
+                                    :xl="10"
+                                >
                                     <a-row
                                         :gutter="16"
-                                        :style="{ background: '#dbdbdb', padding: '5px' }"
+                                        :style="{
+                                            background: '#dbdbdb',
+                                            padding: '5px',
+                                        }"
                                     >
                                         <a-col
                                             :xs="24"
@@ -381,12 +530,26 @@
                                 >
                                     <small>
                                         {{ $t("product.tax") }} :
-                                        {{ formatAmountCurrency(formData.tax_amount) }} |
-                                        {{ $t("product.discount") }} :
-                                        {{ formatAmountCurrency(formData.discount) }}
+                                        {{
+                                            formatAmountCurrency(
+                                                formData.tax_amount
+                                            )
+                                        }}
+                                        | {{ $t("product.discount") }} :
+                                        {{
+                                            formatAmountCurrency(
+                                                formData.discount
+                                            )
+                                        }}
                                     </small>
                                 </a-col>
-                                <a-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                                <a-col
+                                    :xs="24"
+                                    :sm="24"
+                                    :md="8"
+                                    :lg="8"
+                                    :xl="8"
+                                >
                                     <a-space>
                                         <a-button
                                             type="primary"
@@ -410,7 +573,14 @@
                     </div>
                 </div>
             </a-col>
-            <a-col class="right-pos-sidebar" :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
+            <a-col
+                class="right-pos-sidebar"
+                :xs="24"
+                :sm="24"
+                :md="24"
+                :lg="14"
+                :xl="14"
+            >
                 <perfect-scrollbar
                     :options="{
                         wheelSpeed: 1,
@@ -571,10 +741,15 @@
                                     size="middle"
                                 >
                                     <template #bodyCell="{ column, record }">
-                                        <template v-if="column.dataIndex === 'name'">
+                                        <template
+                                            v-if="column.dataIndex === 'name'"
+                                        >
                                             {{ record.name }} <br />
                                             <small
-                                                v-if="record.product_type != 'service'"
+                                                v-if="
+                                                    record.product_type !=
+                                                    'service'
+                                                "
                                             >
                                                 <a-typography-text code>
                                                     {{ $t("product.avl_qty") }}
@@ -585,23 +760,41 @@
                                             </small>
                                         </template>
                                         <template
-                                            v-if="column.dataIndex === 'unit_quantity'"
+                                            v-if="
+                                                column.dataIndex ===
+                                                'unit_quantity'
+                                            "
                                         >
                                             <a-input-number
                                                 id="inputNumber"
                                                 v-model:value="record.quantity"
                                                 :min="0"
-                                                @change="quantityChanged(record)"
+                                                @change="
+                                                    quantityChanged(record)
+                                                "
                                             />
                                         </template>
-                                        <template v-if="column.dataIndex === 'subtotal'">
-                                            {{ formatAmountCurrency(record.subtotal) }}
+                                        <template
+                                            v-if="
+                                                column.dataIndex === 'subtotal'
+                                            "
+                                        >
+                                            {{
+                                                formatAmountCurrency(
+                                                    record.subtotal
+                                                )
+                                            }}
                                         </template>
-                                        <template v-if="column.dataIndex === 'action'">
+                                        <template
+                                            v-if="column.dataIndex === 'action'"
+                                        >
                                             <a-button
                                                 type="primary"
                                                 @click="editItem(record)"
-                                                style="margin-left: 4px; margin-top: 4px"
+                                                style="
+                                                    margin-left: 4px;
+                                                    margin-top: 4px;
+                                                "
                                             >
                                                 <template #icon
                                                     ><EditOutlined
@@ -609,8 +802,13 @@
                                             </a-button>
                                             <a-button
                                                 type="primary"
-                                                @click="showDeleteConfirm(record)"
-                                                style="margin-left: 4px; margin-top: 4px"
+                                                @click="
+                                                    showDeleteConfirm(record)
+                                                "
+                                                style="
+                                                    margin-left: 4px;
+                                                    margin-top: 4px;
+                                                "
                                             >
                                                 <template #icon
                                                     ><DeleteOutlined
@@ -624,16 +822,22 @@
                     </div>
                     <div v-if="showMobileCart" class="pos-left-footer">
                         <a-card>
-                            <div class="bill-footer" :style="{ paddingBotton: '30px' }">
+                            <div
+                                class="bill-footer"
+                                :style="{ paddingBotton: '30px' }"
+                            >
                                 <a-row :gutter="[16]">
                                     <a-col :xs="24" :sm="24" :md="8" :lg="8">
-                                        <a-form-item :label="$t('stock.order_tax')">
+                                        <a-form-item
+                                            :label="$t('stock.order_tax')"
+                                        >
                                             <a-select
                                                 v-model:value="formData.tax_id"
                                                 :placeholder="
-                                                    $t('common.select_default_text', [
-                                                        $t('stock.order_tax'),
-                                                    ])
+                                                    $t(
+                                                        'common.select_default_text',
+                                                        [$t('stock.order_tax')]
+                                                    )
                                                 "
                                                 :allowClear="true"
                                                 style="width: 100%"
@@ -645,24 +849,39 @@
                                                     :value="tax.xid"
                                                     :tax="tax"
                                                 >
-                                                    {{ tax.name }} ({{ tax.rate }}%)
+                                                    {{ tax.name }} ({{
+                                                        tax.rate
+                                                    }}%)
                                                 </a-select-option>
                                             </a-select>
                                         </a-form-item>
                                     </a-col>
                                     <a-col :xs="24" :sm="24" :md="8" :lg="8">
-                                        <a-form-item :label="$t('stock.discount')">
+                                        <a-form-item
+                                            :label="$t('stock.discount')"
+                                        >
                                             <a-input-group compact>
                                                 <a-select
-                                                    v-model:value="formData.discount_type"
-                                                    @change="recalculateFinalTotal"
+                                                    v-model:value="
+                                                        formData.discount_type
+                                                    "
+                                                    @change="
+                                                        recalculateFinalTotal
+                                                    "
                                                     style="width: 30%"
                                                 >
-                                                    <a-select-option value="percentage">
+                                                    <a-select-option
+                                                        value="percentage"
+                                                    >
                                                         %
                                                     </a-select-option>
-                                                    <a-select-option value="fixed">
-                                                        {{ appSetting.currency.symbol }}
+                                                    <a-select-option
+                                                        value="fixed"
+                                                    >
+                                                        {{
+                                                            appSetting.currency
+                                                                .symbol
+                                                        }}
                                                     </a-select-option>
                                                 </a-select>
                                                 <a-input-number
@@ -672,10 +891,16 @@
                                                     :placeholder="
                                                         $t(
                                                             'common.placeholder_default_text',
-                                                            [$t('stock.discount')]
+                                                            [
+                                                                $t(
+                                                                    'stock.discount'
+                                                                ),
+                                                            ]
                                                         )
                                                     "
-                                                    @change="recalculateFinalTotal"
+                                                    @change="
+                                                        recalculateFinalTotal
+                                                    "
                                                     min="0"
                                                     style="width: 70%"
                                                 />
@@ -683,9 +908,13 @@
                                         </a-form-item>
                                     </a-col>
                                     <a-col :xs="24" :sm="24" :md="8" :lg="8">
-                                        <a-form-item :label="$t('stock.shipping')">
+                                        <a-form-item
+                                            :label="$t('stock.shipping')"
+                                        >
                                             <a-input-number
-                                                v-model:value="formData.shipping"
+                                                v-model:value="
+                                                    formData.shipping
+                                                "
                                                 :placeholder="
                                                     $t(
                                                         'common.placeholder_default_text',
@@ -697,7 +926,10 @@
                                                 style="width: 100%"
                                             >
                                                 <template #addonBefore>
-                                                    {{ appSetting.currency.symbol }}
+                                                    {{
+                                                        appSetting.currency
+                                                            .symbol
+                                                    }}
                                                 </template>
                                             </a-input-number>
                                         </a-form-item>
@@ -781,7 +1013,9 @@
                                 ? addEditRules.unit_price.message
                                 : null
                         "
-                        :validateStatus="addEditRules.unit_price ? 'error' : null"
+                        :validateStatus="
+                            addEditRules.unit_price ? 'error' : null
+                        "
                     >
                         <a-input-number
                             v-model:value="addEditFormData.unit_price"
@@ -810,7 +1044,9 @@
                                 ? addEditRules.discount_rate.message
                                 : null
                         "
-                        :validateStatus="addEditRules.discount_rate ? 'error' : null"
+                        :validateStatus="
+                            addEditRules.discount_rate ? 'error' : null
+                        "
                     >
                         <a-input-number
                             v-model:value="addEditFormData.discount_rate"
@@ -832,13 +1068,19 @@
                     <a-form-item
                         :label="$t('product.tax')"
                         name="tax_id"
-                        :help="addEditRules.tax_id ? addEditRules.tax_id.message : null"
+                        :help="
+                            addEditRules.tax_id
+                                ? addEditRules.tax_id.message
+                                : null
+                        "
                         :validateStatus="addEditRules.tax_id ? 'error' : null"
                     >
                         <a-select
                             v-model:value="addEditFormData.tax_id"
                             :placeholder="
-                                $t('common.select_default_text', [$t('product.tax')])
+                                $t('common.select_default_text', [
+                                    $t('product.tax'),
+                                ])
                             "
                             :allowClear="true"
                         >
@@ -859,14 +1101,18 @@
                         :label="$t('product.tax_type')"
                         name="tax_type"
                         :help="
-                            addEditRules.tax_type ? addEditRules.tax_type.message : null
+                            addEditRules.tax_type
+                                ? addEditRules.tax_type.message
+                                : null
                         "
                         :validateStatus="addEditRules.tax_type ? 'error' : null"
                     >
                         <a-select
                             v-model:value="addEditFormData.tax_type"
                             :placeholder="
-                                $t('common.select_default_text', [$t('product.tax_type')])
+                                $t('common.select_default_text', [
+                                    $t('product.tax_type'),
+                                ])
                             "
                             :allowClear="true"
                         >
@@ -916,7 +1162,7 @@
 </template>
 
 <script>
-import { ref, onMounted, reactive, toRefs, nextTick } from "vue";
+import { ref, onMounted, reactive, watch, toRefs, nextTick } from "vue";
 import {
     ShoppingCartOutlined,
     PlusOutlined,
@@ -1008,20 +1254,64 @@ export default {
         // For mobile Design
         const showMobileCart = ref(false);
 
+        // onMounted(() => {
+        //     getPreFetchData();
+        // });
         onMounted(() => {
+            // Set default price type to retail if not already set
+            if (!formData.value.price_type) {
+                formData.value.price_type = "retail";
+            }
+
             getPreFetchData();
+
+            // Initial product fetch with default price type
+            reFetchProducts();
         });
 
+        // const reFetchProducts = () => {
+        // axiosAdmin
+        //     .post("pos/products", {
+        //         brand_id: formData.value.brand_id,
+        //         category_id: formData.value.category_id,
+        //         price_type: formData.value.price_type
+        //     })
+        //     .then((productResponse) => {
+        //         productLists.value = productResponse.data.products;
+        //     });
+        // };
         const reFetchProducts = () => {
             axiosAdmin
                 .post("pos/products", {
                     brand_id: formData.value.brand_id,
                     category_id: formData.value.category_id,
+                    price_type: formData.value.price_type, // Fixed: was 'price' should be 'price_type'
                 })
                 .then((productResponse) => {
                     productLists.value = productResponse.data.products;
+                })
+                .catch((error) => {
+                    console.error("Error fetching products:", error);
                 });
         };
+
+        // watch(
+        //     () => formData.price_type,
+        //     (newVal) => {
+        //         console.log("Price type changed:", newVal);
+        //         reFetchProducts();
+        //     }
+        // );
+        watch(
+            () => formData.value.price_type,
+            (newVal, oldVal) => {
+                console.log("Price type changed from:", oldVal, "to:", newVal);
+                if (newVal) {
+                    reFetchProducts();
+                }
+            },
+            { immediate: false } // Don't trigger on initial setup
+        );
 
         const fetchProducts = debounce((value) => {
             fetchAllSearchedProduct(value);
@@ -1042,7 +1332,9 @@ export default {
                     })
                     .then((response) => {
                         if (response.data.length == 1) {
-                            searchValueSelected("", { product: response.data[0] });
+                            searchValueSelected("", {
+                                product: response.data[0],
+                            });
                         } else {
                             state.products = response.data;
                         }
@@ -1065,17 +1357,164 @@ export default {
             selectSaleProduct(newProduct);
         };
 
+        // const selectSaleProduct = (newProduct) => {
+        //     const priceType = formData.value.price_type || "retail";
+        //     const unitPrice =
+        //         priceType === "wholesale"
+        //             ? newProduct.wholesale_price
+        //             : newProduct.retail_price;
+
+        //     if (!includes(selectedProductIds.value, newProduct.xid)) {
+        //         selectedProductIds.value.push(newProduct.xid);
+
+        //         selectedProducts.value.push({
+        //             ...newProduct,
+        //             sn: selectedProducts.value.length + 1,
+        //             unit_price: formatAmount(unitPrice),
+        //             tax_amount: formatAmount(newProduct.tax_amount),
+        //             subtotal: formatAmount(newProduct.subtotal),
+        //         });
+        //         state.orderSearchTerm = undefined;
+        //         state.products = [];
+        //         recalculateFinalTotal();
+
+        //         var audioObj = new Audio(appSetting.value.beep_audio_url);
+        //         audioObj.play();
+        //     } else {
+        //         const newProductSelection = find(selectedProducts.value, [
+        //             "xid",
+        //             newProduct.xid,
+        //         ]);
+
+        //         if (
+        //             newProductSelection &&
+        //             (newProductSelection.quantity <
+        //                 newProductSelection.stock_quantity ||
+        //                 newProductSelection.product_type == "service")
+        //         ) {
+        //             const newResults = [];
+        //             var foundRecord = {};
+
+        //             selectedProducts.value.map((selectedProduct) => {
+        //                 var newQuantity = selectedProduct.quantity;
+
+        //                 if (selectedProduct.xid == newProduct.xid) {
+        //                     newQuantity += 1;
+        //                     selectedProduct.quantity = newQuantity;
+        //                     foundRecord = selectedProduct;
+        //                 }
+
+        //                 newResults.push(selectedProduct);
+        //             });
+        //             selectedProducts.value = newResults;
+
+        //             var audioObj = new Audio(appSetting.value.beep_audio_url);
+        //             audioObj.play();
+
+        //             state.orderSearchTerm = undefined;
+        //             state.products = [];
+
+        //             quantityChanged(foundRecord);
+        //         } else {
+        //             state.orderSearchTerm = undefined;
+        //             state.products = [];
+
+        //             message.error(t("common.out_of_stock"));
+        //         }
+        //     }
+        // };
+
+        // const selectSaleProduct = (newProduct) => {
+        //     const priceType = formData.value.price_type || "retail";
+        //     const unitPrice =
+        //         priceType === "wholesale"
+        //             ? newProduct.wholesale_price
+        //             : newProduct.retail_price;
+
+        //     if (!includes(selectedProductIds.value, newProduct.xid)) {
+        //         selectedProductIds.value.push(newProduct.xid);
+
+        //         selectedProducts.value.push({
+        //             ...newProduct,
+        //             sn: selectedProducts.value.length + 1,
+        //             unit_price: formatAmount(unitPrice),
+        //             tax_amount: formatAmount(newProduct.tax_amount),
+        //             subtotal: formatAmount(newProduct.subtotal),
+        //         });
+        //         state.orderSearchTerm = undefined;
+        //         state.products = [];
+        //         recalculateFinalTotal();
+
+        //         var audioObj = new Audio(appSetting.value.beep_audio_url);
+        //         audioObj.play();
+        //     } else {
+        //         const newProductSelection = find(selectedProducts.value, [
+        //             "xid",
+        //             newProduct.xid,
+        //         ]);
+
+        //         if (
+        //             newProductSelection &&
+        //             (newProductSelection.quantity <
+        //                 newProductSelection.stock_quantity ||
+        //                 newProductSelection.product_type == "service")
+        //         ) {
+        //             const newResults = [];
+        //             var foundRecord = {};
+
+        //             selectedProducts.value.map((selectedProduct) => {
+        //                 var newQuantity = selectedProduct.quantity;
+
+        //                 if (selectedProduct.xid == newProduct.xid) {
+        //                     newQuantity += 1;
+        //                     selectedProduct.quantity = newQuantity;
+        //                     foundRecord = selectedProduct;
+        //                 }
+
+        //                 newResults.push(selectedProduct);
+        //             });
+        //             selectedProducts.value = newResults;
+
+        //             var audioObj = new Audio(appSetting.value.beep_audio_url);
+        //             audioObj.play();
+
+        //             state.orderSearchTerm = undefined;
+        //             state.products = [];
+
+        //             quantityChanged(foundRecord);
+        //         } else {
+        //             state.orderSearchTerm = undefined;
+        //             state.products = [];
+
+        //             message.error(t("common.out_of_stock"));
+        //         }
+        //     }
+        // };
+
         const selectSaleProduct = (newProduct) => {
+            const priceType = formData.value.price_type || "retail";
+            const unitPrice =
+                priceType === "wholesale"
+                    ? newProduct.wholesale_price
+                    : newProduct.retail_price;
+
             if (!includes(selectedProductIds.value, newProduct.xid)) {
                 selectedProductIds.value.push(newProduct.xid);
 
-                selectedProducts.value.push({
+                // Preserve original price information when adding product
+                const productToAdd = {
                     ...newProduct,
                     sn: selectedProducts.value.length + 1,
-                    unit_price: formatAmount(newProduct.unit_price),
+                    unit_price: formatAmount(unitPrice),
+                    original_unit_price: unitPrice, // Store original price
                     tax_amount: formatAmount(newProduct.tax_amount),
                     subtotal: formatAmount(newProduct.subtotal),
-                });
+                    // Preserve both price types
+                    wholesale_price: newProduct.wholesale_price || 0,
+                    retail_price: newProduct.retail_price || 0,
+                };
+
+                selectedProducts.value.push(productToAdd);
                 state.orderSearchTerm = undefined;
                 state.products = [];
                 recalculateFinalTotal();
@@ -1090,7 +1529,8 @@ export default {
 
                 if (
                     newProductSelection &&
-                    (newProductSelection.quantity < newProductSelection.stock_quantity ||
+                    (newProductSelection.quantity <
+                        newProductSelection.stock_quantity ||
                         newProductSelection.product_type == "service")
                 ) {
                     const newResults = [];
@@ -1102,6 +1542,10 @@ export default {
                         if (selectedProduct.xid == newProduct.xid) {
                             newQuantity += 1;
                             selectedProduct.quantity = newQuantity;
+                            // Preserve original unit price
+                            selectedProduct.original_unit_price =
+                                selectedProduct.original_unit_price ||
+                                selectedProduct.unit_price;
                             foundRecord = selectedProduct;
                         }
 
@@ -1119,25 +1563,78 @@ export default {
                 } else {
                     state.orderSearchTerm = undefined;
                     state.products = [];
-
                     message.error(t("common.out_of_stock"));
                 }
             }
         };
+        // const recalculateValues = (product) => {
+        //     var quantityValue = parseFloat(product.quantity);
+        //     var maxQuantity = parseFloat(product.stock_quantity);
+        //     const unitPrice = parseFloat(product.unit_price);
+
+        //     // Check if entered quantity value is greater
+        //     if (product.product_type != "service") {
+        //         quantityValue =
+        //             quantityValue > maxQuantity ? maxQuantity : quantityValue;
+        //     }
+
+        //     // Discount Amount
+        //     const discountRate = product.discount_rate;
+        //     const totalDiscount =
+        //         discountRate > 0 ? (discountRate / 100) * unitPrice : 0;
+        //     const totalPriceAfterDiscount = unitPrice - totalDiscount;
+
+        //     var taxAmount = 0;
+        //     var subtotal = totalPriceAfterDiscount;
+        //     var singleUnitPrice = unitPrice;
+
+        //     // Tax Amount
+        //     if (product.tax_rate > 0) {
+        //         if (product.tax_type == "inclusive") {
+        //             singleUnitPrice =
+        //                 (totalPriceAfterDiscount * 100) /
+        //                 (100 + product.tax_rate);
+        //             taxAmount = singleUnitPrice * (product.tax_rate / 100);
+        //         } else {
+        //             taxAmount =
+        //                 totalPriceAfterDiscount * (product.tax_rate / 100);
+        //             subtotal = totalPriceAfterDiscount + taxAmount;
+        //             singleUnitPrice = totalPriceAfterDiscount;
+        //         }
+        //     }
+
+        //     const newObject = {
+        //         ...product,
+        //         total_discount: totalDiscount * quantityValue,
+        //         subtotal: subtotal * quantityValue,
+        //         quantity: quantityValue,
+        //         total_tax: taxAmount * quantityValue,
+        //         max_quantity: maxQuantity,
+        //         single_unit_price: singleUnitPrice,
+        //     };
+
+        //     return newObject;
+        // };
 
         const recalculateValues = (product) => {
-            var quantityValue = parseFloat(product.quantity);
-            var maxQuantity = parseFloat(product.stock_quantity);
-            const unitPrice = parseFloat(product.unit_price);
+            var quantityValue = parseFloat(product.quantity) || 1;
+            var maxQuantity = parseFloat(product.stock_quantity) || 0;
+
+            // Use original_unit_price if available, otherwise use unit_price
+            const unitPrice =
+                parseFloat(product.original_unit_price || product.unit_price) ||
+                0;
 
             // Check if entered quantity value is greater
             if (product.product_type != "service") {
-                quantityValue = quantityValue > maxQuantity ? maxQuantity : quantityValue;
+                quantityValue =
+                    quantityValue > maxQuantity ? maxQuantity : quantityValue;
             }
 
             // Discount Amount
-            const discountRate = product.discount_rate;
-            const totalDiscount = discountRate > 0 ? (discountRate / 100) * unitPrice : 0;
+            const discountRate = parseFloat(product.discount_rate) || 0;
+            const totalDiscount =
+                discountRate > 0 ? (discountRate / 100) * unitPrice : 0;
             const totalPriceAfterDiscount = unitPrice - totalDiscount;
 
             var taxAmount = 0;
@@ -1145,13 +1642,14 @@ export default {
             var singleUnitPrice = unitPrice;
 
             // Tax Amount
-            if (product.tax_rate > 0) {
+            const taxRate = parseFloat(product.tax_rate) || 0;
+            if (taxRate > 0) {
                 if (product.tax_type == "inclusive") {
                     singleUnitPrice =
-                        (totalPriceAfterDiscount * 100) / (100 + product.tax_rate);
-                    taxAmount = singleUnitPrice * (product.tax_rate / 100);
+                        (totalPriceAfterDiscount * 100) / (100 + taxRate);
+                    taxAmount = singleUnitPrice * (taxRate / 100);
                 } else {
-                    taxAmount = totalPriceAfterDiscount * (product.tax_rate / 100);
+                    taxAmount = totalPriceAfterDiscount * (taxRate / 100);
                     subtotal = totalPriceAfterDiscount + taxAmount;
                     singleUnitPrice = totalPriceAfterDiscount;
                 }
@@ -1165,6 +1663,9 @@ export default {
                 total_tax: taxAmount * quantityValue,
                 max_quantity: maxQuantity,
                 single_unit_price: singleUnitPrice,
+                // IMPORTANT: Preserve the unit_price
+                unit_price: unitPrice,
+                original_unit_price: product.original_unit_price || unitPrice,
             };
 
             return newObject;
@@ -1196,7 +1697,8 @@ export default {
             if (formData.value.discount_type == "percentage") {
                 discountAmount =
                     formData.value.discount_value != ""
-                        ? (parseFloat(formData.value.discount_value) * total) / 100
+                        ? (parseFloat(formData.value.discount_value) * total) /
+                          100
                         : 0;
             } else if (formData.value.discount_type == "fixed") {
                 discountAmount =
@@ -1206,7 +1708,9 @@ export default {
             }
 
             const taxRate =
-                formData.value.tax_rate != "" ? parseFloat(formData.value.tax_rate) : 0;
+                formData.value.tax_rate != ""
+                    ? parseFloat(formData.value.tax_rate)
+                    : 0;
 
             total = total - discountAmount;
 
@@ -1248,9 +1752,11 @@ export default {
             selectedProducts.value = newResults;
 
             // Remove deleted product id from lists
-            const filterProductIdArray = selectedProductIds.value.filter((newId) => {
-                return newId != product.xid;
-            });
+            const filterProductIdArray = selectedProductIds.value.filter(
+                (newId) => {
+                    return newId != product.xid;
+                }
+            );
             selectedProductIds.value = filterProductIdArray;
             recalculateFinalTotal();
         };
@@ -1267,13 +1773,53 @@ export default {
                 discount_rate: product.discount_rate,
                 unit_price: product.unit_price,
                 tax_id: product.x_tax_id,
-                tax_type: product.tax_type == null ? undefined : product.tax_type,
+                tax_type:
+                    product.tax_type == null ? undefined : product.tax_type,
             };
             addEditVisible.value = true;
             addEditPageTitle.value = product.name;
         };
 
+        // const payNow = () => {
+        //     payNowVisible.value = true;
+        // };
         const payNow = () => {
+            // Validate that we have products and customer
+            if (selectedProducts.value.length === 0) {
+                message.error("Please add products to cart");
+                return;
+            }
+
+            if (!formData.value.user_id) {
+                message.error("Please select a customer");
+                return;
+            }
+
+            // Clean up the selectedProducts data before passing to PayNow component
+            const cleanedProducts = selectedProducts.value.map((product) => ({
+                ...product,
+                // Ensure unit_price is preserved and properly formatted
+                unit_price:
+                    product.unit_price || product.original_unit_price || 0,
+                // Ensure all numeric values are properly formatted
+                quantity: parseFloat(product.quantity) || 1,
+                subtotal: parseFloat(product.subtotal) || 0,
+                total_tax: parseFloat(product.total_tax) || 0,
+                total_discount: parseFloat(product.total_discount) || 0,
+                single_unit_price:
+                    parseFloat(product.single_unit_price) ||
+                    product.unit_price ||
+                    0,
+                // Preserve original price information
+                original_unit_price:
+                    product.original_unit_price || product.unit_price,
+                wholesale_price: product.wholesale_price || 0,
+                retail_price: product.retail_price || 0,
+            }));
+
+            // Update selectedProducts with cleaned data
+            selectedProducts.value = cleanedProducts;
+
             payNowVisible.value = true;
         };
 
@@ -1287,10 +1833,10 @@ export default {
 
             formData.value = {
                 ...formData.value,
+                price_type: "retail", // Keep retail as default
                 tax_id: undefined,
                 category_id: undefined,
                 brand_id: undefined,
-                tax_id: undefined,
                 tax_rate: 0,
                 tax_amount: 0,
                 discount_value: 0,
@@ -1300,12 +1846,35 @@ export default {
             };
 
             recalculateFinalTotal();
+            reFetchProducts(); // Refetch products after reset
         };
+        // const resetPos = () => {
+        //     selectedProducts.value = [];
+        //     selectedProductIds.value = [];
+
+        //     formData.value = {
+        //         ...formData.value,
+        //         price_type: "retail", // Keep retail as default
+        //         tax_id: undefined,
+        //         category_id: undefined,
+        //         brand_id: undefined,
+        //         tax_rate: 0,
+        //         tax_amount: 0,
+        //         discount_value: 0,
+        //         discount: 0,
+        //         shipping: 0,
+        //         subtotal: 0,
+        //     };
+
+        //     recalculateFinalTotal();
+        //     reFetchProducts(); // Refetch products after reset
+        // };
 
         // For Add Edit
         const onAddEditSubmit = () => {
             const record = selectedProducts.value.filter(
-                (selectedProduct) => selectedProduct.xid == addEditFormData.value.id
+                (selectedProduct) =>
+                    selectedProduct.xid == addEditFormData.value.id
             );
 
             const selecteTax = taxes.value.filter(
@@ -1341,6 +1910,24 @@ export default {
             });
         };
 
+        // const payNowSuccess = (invoiceOrder) => {
+        //     resetPos();
+
+        //     var walkInCustomerId =
+        //         posDefaultCustomer.value && posDefaultCustomer.value.xid
+        //             ? posDefaultCustomer.value.xid
+        //             : undefined;
+        //     formData.value = {
+        //         ...formData.value,
+        //         user_id: walkInCustomerId,
+        //     };
+
+        //     reFetchProducts();
+        //     payNowVisible.value = false;
+
+        //     printInvoiceOrder.value = invoiceOrder;
+        //     printInvoiceModalVisible.value = true;
+        // };
         const payNowSuccess = (invoiceOrder) => {
             resetPos();
 
@@ -1348,6 +1935,7 @@ export default {
                 posDefaultCustomer.value && posDefaultCustomer.value.xid
                     ? posDefaultCustomer.value.xid
                     : undefined;
+
             formData.value = {
                 ...formData.value,
                 user_id: walkInCustomerId,
