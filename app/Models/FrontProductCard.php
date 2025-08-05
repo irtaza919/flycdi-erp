@@ -49,7 +49,7 @@ class FrontProductCard extends BaseModel
         $products = Product::withoutGlobalScope(CompanyScope::class)
             ->withoutGlobalScope('current_warehouse')
             ->select('id', 'name', 'slug', 'image', 'description', 'brand_id', 'category_id')
-            ->with(['details:id,product_id,sales_price,mrp,tax_id,sales_tax_type,current_stock', 'details.tax:id,rate', 'brand:id,name,slug,image', 'category:id,name,slug,image'])
+            ->with(['details:id,product_id,sales_price,whole_sale_price,mrp,tax_id,sales_tax_type,current_stock', 'details.tax:id,rate', 'brand:id,name,slug,image', 'category:id,name,slug,image'])
             ->whereIn('products.id', $this->products)
             ->get();
 

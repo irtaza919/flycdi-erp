@@ -48,6 +48,14 @@
                             "
                         />
                     </a-col>
+                    <a-col :xs="24" :sm="24" :md="8" :lg="8">
+                        <a-statistic
+                            :title="$t('product.whole_sale_price')"
+                            :value="
+                                formatAmountCurrency(itemDetails.whole_sale_price)
+                            "
+                        />
+                    </a-col>
                 </a-row>
                 <hr
                     style="

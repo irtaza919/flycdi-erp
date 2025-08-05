@@ -10,6 +10,7 @@ const fields = () => {
         mrp: "details.mrp",
         purchase_price: "details.purchase_price",
         sales_price: "details.sales_price",
+        whole_sale_price: "details.whole_sale_price",
         tax_id: "details.x_tax_id",
         purchase_tax_type: "details.purchase_tax_type",
         sales_tax_type: "details.sales_tax_type",
@@ -33,6 +34,7 @@ const fields = () => {
         mrp: 0,
         purchase_price: 0,
         sales_price: 0,
+        whole_sale_price: 0,
         tax_id: undefined,
         unit_id: undefined,
         description: "",
@@ -138,6 +140,10 @@ const fields = () => {
         {
             title: t("product.sales_price"),
             dataIndex: "sales_price",
+        },
+        {
+            title: t("product.whole_sale_price"),
+            dataIndex: "whole_sale_price",
         },
         {
             title: t("product.purchase_price"),

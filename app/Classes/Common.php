@@ -485,6 +485,7 @@ class Common
         $productDetails->mrp = $defaultWarehouseProductDetails->mrp;
         $productDetails->purchase_price = $defaultWarehouseProductDetails->purchase_price;
         $productDetails->sales_price = $defaultWarehouseProductDetails->sales_price;
+        $productDetails->whole_sale_price = $defaultWarehouseProductDetails->whole_sale_price;
         $productDetails->purchase_tax_type = $defaultWarehouseProductDetails->purchase_tax_type;
         $productDetails->sales_tax_type = $defaultWarehouseProductDetails->sales_tax_type;
         $productDetails->stock_quantitiy_alert = $defaultWarehouseProductDetails->stock_quantitiy_alert;

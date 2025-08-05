@@ -1138,6 +1138,9 @@ class LangTrans
             'single' => 'Single',
             'variable' => 'Variable',
             'service' => 'Service',
+            'whole_sale_price' => 'Whole Sale Price',
+            'retail_price' => 'Retail Price',
+            'select_price_type' => 'Select Price Type',
         ],
         'variations' => [
             'add' => 'Add Variation',

@@ -538,6 +538,10 @@
 "en","product","unit_sold","Unit Sold"
 "en","product","import_products","Import Products"
 "en","product","import_variable_products","Import Variable Products"
+"en","product","whole_sale_price","Whole Sale Price"
+"en","product","retail_price","Retailer Price"
+"en","product","select_price_type","Select Price Type"
+
 "en","stock","order_type","Order Type"
 "en","stock","order_date","Order Date"
 "en","stock","warehouse","Warehouse"
