@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Classes\Common;
 use App\Http\Controllers\ApiBaseController;
 use App\Http\Requests\Api\Order\PosRequest;
+use App\Http\Requests\Api\Order\PosProductRequest;
 use App\Models\Order;
 use App\Models\OrderPayment;
 use App\Models\Payment;
@@ -124,8 +125,10 @@ class PosController extends ApiBaseController
     //     return ApiResponse::make('Data fetched', $data);
     // }
 
-    public function posProducts(Request $request)
+    public function posProducts(PosProductRequest $request)
     {
+        // return "ok";
+        // dd($request->price);
         $request = request();
         $request->validate([
             'price' => 'in:retail,wholesale',
@@ -133,6 +136,7 @@ class PosController extends ApiBaseController
         $allProducs = [];
         $warehouse = warehouse();
         $warehouseId = $warehouse->id;
+
 
         $priceType = $request->has('price') ? $request->price : 'retail';
         $products = Product::select(
@@ -147,11 +151,7 @@ class PosController extends ApiBaseController
             'product_details.tax_id',
             'product_details.current_stock',
             'taxes.rate'
-        )
-            ->join('product_details', 'product_details.product_id', '=', 'products.id')
-            ->leftJoin('taxes', 'taxes.id', '=', 'product_details.tax_id')
-            ->join('units', 'units.id', '=', 'products.unit_id')
-            ->where('product_details.warehouse_id', '=', $warehouseId);
+        )->join('product_details', 'product_details.product_id', '=', 'products.id')->leftJoin('taxes', 'taxes.id', '=', 'product_details.tax_id')->join('units', 'units.id', '=', 'products.unit_id')->where('product_details.warehouse_id', '=', $warehouseId);
 
         $products = $products->where(function ($query) {
             $query->where(function ($qry) {
@@ -160,9 +160,12 @@ class PosController extends ApiBaseController
             })->orWhere('products.product_type', '=', 'service');
         });
 
+
         if ($warehouse->products_visibility == 'warehouse') {
             $products->where('products.warehouse_id', '=', $warehouse->id);
         }
+
+
 
         // Category Filter
         if ($request->has('category_id') && $request->category_id != "") {
@@ -170,13 +173,19 @@ class PosController extends ApiBaseController
             $products->where('category_id', '=', $categoryId);
         }
 
+
         // Brand Filter
         if ($request->has('brand_id') && $request->brand_id != "") {
             $brandId = $this->getIdFromHash($request->brand_id);
             $products->where('brand_id', '=', $brandId);
         }
 
+        dd($products);
+
+        return $products;
+
         $products = $products->get();
+
 
         foreach ($products as $product) {
             $stockQuantity = $product->current_stock;
