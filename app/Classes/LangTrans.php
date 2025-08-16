@@ -1033,6 +1033,7 @@ class LangTrans
             'expense_category' => 'Expense Category',
             'date' => 'Date',
             'amount' => 'Amount',
+            'vat_amount' => 'VAT Amount',
             'bill' => 'Expense Bill',
             'user' => 'User',
             'created_by_user' => 'User',
