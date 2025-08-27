@@ -1034,6 +1034,8 @@ class LangTrans
             'date' => 'Date',
             'amount' => 'Amount',
             'vat_amount' => 'VAT Amount',
+            'with_vat_amount' => 'With VAT Amount',
+            'without_vat_amount' => 'Without VAT Amount',
             'bill' => 'Expense Bill',
             'user' => 'User',
             'created_by_user' => 'User',

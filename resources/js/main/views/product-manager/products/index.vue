@@ -258,6 +258,21 @@
                             <template v-if="column.dataIndex === 'brand_id'">
                                 {{ record.brand ? record.brand.name : "-" }}
                             </template>
+                            <template v-if="column.dataIndex === 'whole_sale_price'">
+                                <span
+                                    v-if="
+                                        (productType == 'single' ||
+                                            productType == 'service') &&
+                                        record &&
+                                        record.details
+                                    "
+                                >
+                                    {{ formatAmountCurrency(record.details.whole_sale_price) }}
+                                </span>
+                                <span v-else-if="productType == 'variable'">
+                                    {{ getVariableProductWholeSalePrice(record) }}
+                                </span>
+                            </template>
                             <template v-if="column.dataIndex === 'sales_price'">
                                 <span
                                     v-if="
@@ -697,6 +712,27 @@ export default {
             return priceString;
         };
 
+        const getVariableProductWholeSalePrice = (record) => {
+            var priceString = "";
+            const minRecord = minBy(record.variations, (o) => {
+                return o.details.whole_sale_price;
+            });
+            const maxRecord = maxBy(record.variations, (o) => {
+                return o.details.whole_sale_price;
+            });
+
+            if (minRecord && minRecord.details.whole_sale_price) {
+                priceString += formatAmountCurrency(minRecord.details.whole_sale_price);
+            }
+
+            if (maxRecord && maxRecord.details.whole_sale_price) {
+                priceString +=
+                    " - " + formatAmountCurrency(maxRecord.details.whole_sale_price);
+            }
+
+            return priceString;
+        };
+
         const getVariableProductPurchasePrice = (record) => {
             var priceString = "";
             const minRecord = minBy(record.variations, (o) => {
@@ -764,6 +800,7 @@ export default {
             productType,
 
             getVariableProductSalePrice,
+            getVariableProductWholeSalePrice,
             getVariableProductPurchasePrice,
             getVariableProductStockSum,
             totals,

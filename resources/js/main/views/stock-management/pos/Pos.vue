@@ -1328,6 +1328,7 @@ export default {
                     .post(url, {
                         order_type: "sales",
                         search_term: value,
+                        priceType: formData.value.price_type,
                         // products: selectedProductIds.value,
                     })
                     .then((response) => {
@@ -1354,150 +1355,19 @@ export default {
 
         const searchValueSelected = (value, option) => {
             const newProduct = option.product;
+
             selectSaleProduct(newProduct);
         };
 
-        // const selectSaleProduct = (newProduct) => {
-        //     const priceType = formData.value.price_type || "retail";
-        //     const unitPrice =
-        //         priceType === "wholesale"
-        //             ? newProduct.wholesale_price
-        //             : newProduct.retail_price;
-
-        //     if (!includes(selectedProductIds.value, newProduct.xid)) {
-        //         selectedProductIds.value.push(newProduct.xid);
-
-        //         selectedProducts.value.push({
-        //             ...newProduct,
-        //             sn: selectedProducts.value.length + 1,
-        //             unit_price: formatAmount(unitPrice),
-        //             tax_amount: formatAmount(newProduct.tax_amount),
-        //             subtotal: formatAmount(newProduct.subtotal),
-        //         });
-        //         state.orderSearchTerm = undefined;
-        //         state.products = [];
-        //         recalculateFinalTotal();
-
-        //         var audioObj = new Audio(appSetting.value.beep_audio_url);
-        //         audioObj.play();
-        //     } else {
-        //         const newProductSelection = find(selectedProducts.value, [
-        //             "xid",
-        //             newProduct.xid,
-        //         ]);
-
-        //         if (
-        //             newProductSelection &&
-        //             (newProductSelection.quantity <
-        //                 newProductSelection.stock_quantity ||
-        //                 newProductSelection.product_type == "service")
-        //         ) {
-        //             const newResults = [];
-        //             var foundRecord = {};
-
-        //             selectedProducts.value.map((selectedProduct) => {
-        //                 var newQuantity = selectedProduct.quantity;
-
-        //                 if (selectedProduct.xid == newProduct.xid) {
-        //                     newQuantity += 1;
-        //                     selectedProduct.quantity = newQuantity;
-        //                     foundRecord = selectedProduct;
-        //                 }
-
-        //                 newResults.push(selectedProduct);
-        //             });
-        //             selectedProducts.value = newResults;
-
-        //             var audioObj = new Audio(appSetting.value.beep_audio_url);
-        //             audioObj.play();
-
-        //             state.orderSearchTerm = undefined;
-        //             state.products = [];
-
-        //             quantityChanged(foundRecord);
-        //         } else {
-        //             state.orderSearchTerm = undefined;
-        //             state.products = [];
-
-        //             message.error(t("common.out_of_stock"));
-        //         }
-        //     }
-        // };
-
-        // const selectSaleProduct = (newProduct) => {
-        //     const priceType = formData.value.price_type || "retail";
-        //     const unitPrice =
-        //         priceType === "wholesale"
-        //             ? newProduct.wholesale_price
-        //             : newProduct.retail_price;
-
-        //     if (!includes(selectedProductIds.value, newProduct.xid)) {
-        //         selectedProductIds.value.push(newProduct.xid);
-
-        //         selectedProducts.value.push({
-        //             ...newProduct,
-        //             sn: selectedProducts.value.length + 1,
-        //             unit_price: formatAmount(unitPrice),
-        //             tax_amount: formatAmount(newProduct.tax_amount),
-        //             subtotal: formatAmount(newProduct.subtotal),
-        //         });
-        //         state.orderSearchTerm = undefined;
-        //         state.products = [];
-        //         recalculateFinalTotal();
-
-        //         var audioObj = new Audio(appSetting.value.beep_audio_url);
-        //         audioObj.play();
-        //     } else {
-        //         const newProductSelection = find(selectedProducts.value, [
-        //             "xid",
-        //             newProduct.xid,
-        //         ]);
-
-        //         if (
-        //             newProductSelection &&
-        //             (newProductSelection.quantity <
-        //                 newProductSelection.stock_quantity ||
-        //                 newProductSelection.product_type == "service")
-        //         ) {
-        //             const newResults = [];
-        //             var foundRecord = {};
-
-        //             selectedProducts.value.map((selectedProduct) => {
-        //                 var newQuantity = selectedProduct.quantity;
-
-        //                 if (selectedProduct.xid == newProduct.xid) {
-        //                     newQuantity += 1;
-        //                     selectedProduct.quantity = newQuantity;
-        //                     foundRecord = selectedProduct;
-        //                 }
-
-        //                 newResults.push(selectedProduct);
-        //             });
-        //             selectedProducts.value = newResults;
-
-        //             var audioObj = new Audio(appSetting.value.beep_audio_url);
-        //             audioObj.play();
-
-        //             state.orderSearchTerm = undefined;
-        //             state.products = [];
-
-        //             quantityChanged(foundRecord);
-        //         } else {
-        //             state.orderSearchTerm = undefined;
-        //             state.products = [];
-
-        //             message.error(t("common.out_of_stock"));
-        //         }
-        //     }
-        // };
-
         const selectSaleProduct = (newProduct) => {
             const priceType = formData.value.price_type || "retail";
+
             const unitPrice =
                 priceType === "wholesale"
-                    ? newProduct.wholesale_price
-                    : newProduct.retail_price;
+                    ? newProduct.whole_sale_price
+                    : newProduct.unit_price;
 
+                    
             if (!includes(selectedProductIds.value, newProduct.xid)) {
                 selectedProductIds.value.push(newProduct.xid);
 
@@ -1622,7 +1492,7 @@ export default {
 
             // Use original_unit_price if available, otherwise use unit_price
             const unitPrice =
-                parseFloat(product.original_unit_price || product.unit_price) ||
+                parseFloat(product.original_unit_price || product.unit_price || product.whole_sale_price || product.single_unit_price) ||
                 0;
 
             // Check if entered quantity value is greater
@@ -1672,6 +1542,7 @@ export default {
         };
 
         const quantityChanged = (record) => {
+
             const newResults = [];
 
             selectedProducts.value.map((selectedProduct) => {
