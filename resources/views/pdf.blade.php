@@ -16,7 +16,8 @@
             font-size: 14px;
             line-height: 18px;
             color: #555;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            ;
         }
 
         body {
@@ -106,18 +107,20 @@
             border-bottom: 1px solid #a9a9a9;
             padding: 10px;
         }
+
         .invoice-box table tr.item.item-two td {
             border-right: 1px solid #fff;
             border-bottom: none;
         }
+
         .invoice-box table tr.item.item-three td {
             border-top: 1px solid #a9a9a9;
         }
 
-		/** RTL **/
-		.invoice-box.rtl {
-			direction: rtl;
-		}
+        /** RTL **/
+        .invoice-box.rtl {
+            direction: rtl;
+        }
 
         .table-two table thead {
             background: rgb(54, 54, 54);
@@ -131,9 +134,11 @@
         .table-two table {
             width: 100%;
         }
+
         tr.item.heading-tow {
             background: #f8f8f8;
         }
+
         tr.item.heading-tow {
             background: #f8f8f8;
         }
@@ -141,18 +146,19 @@
 
 
 
-        .invoice-box table tr.heading td{
+        .invoice-box table tr.heading td {
             background: #363636;
             color: #fff;
             padding: 6px;
         }
 
-        .status{
+        .status {
             border: 1px solid #a9a9a9;
             margin-top: 40px;
             display: flex;
             align-items: center;
         }
+
         .table-three {
             border-left: 1px solid #a9a9a9;
             width: 100%;
@@ -164,12 +170,14 @@
             text-align: end;
             padding: 5px;
         }
+
         .invoice-box table tr.item-four td:last-child {
             border-right: 1px solid #a9a9a9;
             border-bottom: 1px solid #a9a9a9;
             text-align: start;
             padding: 5px;
         }
+
         .invoice-box table tr.item-four th {
             border-right: 1px solid #a9a9a9;
             border-bottom: 1px solid #a9a9a9;
@@ -177,54 +185,65 @@
             padding: 5px;
         }
 
-        .status-due span{
+        .status-due span {
             display: block;
             font-size: 15px;
         }
-        .status-due{
+
+        .status-due {
             padding-left: 10px;
         }
-        span.paid{
+
+        span.paid {
             margin-top: 15px;
         }
-        .status-due h4{
+
+        .status-due h4 {
             color: #000;
             font-size: 18px;
             margin: 0 0 15px 0;
         }
-        table{
+
+        table {
             width: 400px;
         }
-        .signertuer span{
+
+        .signertuer span {
             display: block;
             font-size: 16px;
             font-weight: 500;
         }
-        .signertuer img{
+
+        .signertuer img {
             width: 100px;
             margin: 10px 0;
         }
-        .signertuer{
+
+        .signertuer {
             display: flex;
             align-items: center;
             justify-content: end;
             margin-right: 70px;
         }
+
         .divider {
             line-height: 1.5715;
             color: #000000d9;
             border-top: 1px solid rgba(0, 0, 0, .7);
             margin: 30px 0;
         }
-        .trem span{
+
+        .trem span {
             font-size: 13px;
             font-weight: 700;
             color: #000;
         }
-        .trem p{
+
+        .trem p {
             color: #000;
         }
-        table.information{
+
+        table.information {
             width: 100%;
         }
 
@@ -264,9 +283,9 @@
         }
 
         .clearfix {
-			display: block;
-			clear: both;
-		}
+            display: block;
+            clear: both;
+        }
     </style>
 </head>
 
@@ -274,16 +293,16 @@
 
     <div class="invoice-box">
         <table class="company-details" cellpadding="0" cellspacing="0" style="width: 100%">
-			<tr>
-				<td style="padding-bottom: 20px;">
-					<img src="{{ $company->light_logo_url }}" style="width: 200px; margin-top: 5px;" />
-				</td>
-				<td style="margin-left: 100px; padding-left: 30%; padding-bottom: 20px;">
-					<table style="width: 100%">
+            <tr>
+                <td style="padding-bottom: 20px;">
+                    <img src="{{ $warehouse->logo ? public_path("uploads/warehouses/".$warehouse->logo) : App\Classes\Common::getWarehouseImage('light', $company->id, 'public') }}" style="width: 200px; margin-top: 5px;" />
+                </td>
+                <td style="margin-left: 100px; padding-left: 30%; padding-bottom: 20px;">
+                    <table style="width: 100%">
                         <tr style="text-align: left">
                             <td class="space-10">
                                 <span style="font-size: 28px; font-weight: bolder">
-									@if($order->order_type == "purchases")
+                                    @if($order->order_type == "purchases")
                                     {{ $traslations['purchase_invoice'] }}
                                     @elseif($order->order_type == "purchase-returns")
                                     {{ $traslations['purchase_return_invoice'] }}
@@ -294,11 +313,11 @@
                                     @elseif($order->order_type == "quotations")
                                     {{ $traslations['quotation_invoice'] }}
                                     @endif
-								</span>
+                                </span>
                             </td>
                         </tr>
-						<tr>
-							<table cellpadding="0" cellspacing="0" style="width: 100%">
+                        <tr>
+                            <table cellpadding="0" cellspacing="0" style="width: 100%">
                                 <tr>
                                     <td class="space-3" style="font-weight: bold;">
                                         @if($order->order_type == "sales" || $order->order_type == "sales-returns" || $order->order_type == "quotations")
@@ -319,52 +338,60 @@
                                 </tr>
                                 <tr>
                                     <td class="space-3" style="font-weight: bold;">{{ $traslations['sold_by'] }}</td>
-                                    <td class="space-3 text-right">{{ $staffMember->name }}</td>
+                                    <td class="space-3 text-right">{{ $staffMember?->name }}</td>
                                 </tr>
                             </table>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
 
-        <table class="information"  cellpadding="4px" cellspacing="0" style="border: 1px solid #a9a9a9;">
-            <tr class="heading" >
-                <td style="width: 40%; padding: 12px;" >
+        <table class="information" cellpadding="4px" cellspacing="0" style="border: 1px solid #a9a9a9;">
+            <tr class="heading">
+                <td style="width: 40%; padding: 12px;">
+                    @if($order->order_type == "sales" || $order->order_type == "sales-returns")
                     {{ $traslations['seller'] }}
+                    @else
+                    {{ $traslations['buyer'] }}
+                    @endif
                 </td>
                 <td style="width: 20%"></td>
                 <td style="width: 40%; padding-left: 15px;">
+                    @if($order->order_type == "sales" || $order->order_type == "sales-returns")
                     {{ $traslations['buyer'] }}
+                    @else
+                    {{ $traslations['seller'] }}
+                    @endif
                 </td>
             </tr>
             <tr>
                 <td class="pl-15 pt-15 pb-15" style="vertical-align:top;">
-                    <span style="font-size: 16px; font-weight: bold">{{ $company->name }}</span>  <br>
-                    <span>{{ $company->address }}</span><br>
-                    <span>{{ $company->email }}</span><br>
-                    <span>{{ $company->phone }}</span>
+                    <span style="font-size: 16px; font-weight: bold">{{ $warehouse->name }}</span> <br>
+                    <span>{{ $warehouse->address }}</span><br>
+                    <span>{{ $warehouse->email }}</span><br>
+                    <span>{{ $warehouse->phone }}</span>
                 </td>
                 <td class="pl-15 pt-15 pb-15" style="vertical-align:top;"></td>
                 <td class="pl-15 pt-15 pb-15" style="vertical-align:top;">
                     @if($order->order_type == 'stock-transfers')
-                        <span style="font-size: 16px; font-weight: bold">{{ $order->warehouse->name }}</span><br />
-                        @if($order->warehouse->addres)
-                        {{ $order->warehouse->address  }} <br />
-                        @endif
-                        @if($order->warehouse->phone)
-                        {{ $order->warehouse->phone }} <br />
-                        @endif
-                        {{ $order->warehouse->email }}
+                    <span style="font-size: 16px; font-weight: bold">{{ $order->warehouse->name }}</span><br />
+                    @if($order->warehouse->addres)
+                    {{ $order->warehouse->address  }} <br />
+                    @endif
+                    @if($order->warehouse->phone)
+                    {{ $order->warehouse->phone }} <br />
+                    @endif
+                    {{ $order->warehouse->email }}
                     @else
-                        <span style="font-size: 16px; font-weight: bold">{{ $order->user->name }}</span><br />
-                        @if($order->user->address || $order->user->city || $order->user->zipcode)
-                        {{ $order->user->address .'' .  $order->user->city .''. $order->user->zipcode }} <br />
-                        @endif
-                        @if($order->user->phone)
-                        {{ $order->user->phone }} <br />
-                        @endif
-                        {{ $order->user->email }}
+                    <span style="font-size: 16px; font-weight: bold">{{ $order->user->name }}</span><br />
+                    @if($order->user->address || $order->user->city || $order->user->zipcode)
+                    {{ $order->user->address .'' .  $order->user->city .''. $order->user->zipcode }} <br />
+                    @endif
+                    @if($order->user->phone)
+                    {{ $order->user->phone }} <br />
+                    @endif
+                    {{ $order->user->email }}
                     @endif
                 </td>
             </tr>
@@ -411,14 +438,14 @@
                                 <span class="paid">
                                     {{ $traslations['payment_mode'] }}:
                                     @if($order->orderPayments)
-                                        @foreach ($order->orderPayments as $currentOrderPayment)
-                                            {{ App\Classes\Common::formatAmountCurrency($company->currency, $currentOrderPayment->amount) }}
-                                            @if($currentOrderPayment->payment && $currentOrderPayment->payment->paymentMode && $currentOrderPayment->payment->paymentMode->name)
-                                                ({{ $currentOrderPayment->payment->paymentMode->name }})
-                                            @endif
-                                        @endforeach
+                                    @foreach ($order->orderPayments as $currentOrderPayment)
+                                    {{ App\Classes\Common::formatAmountCurrency($company->currency, $currentOrderPayment->amount) }}
+                                    @if($currentOrderPayment->payment && $currentOrderPayment->payment->paymentMode && $currentOrderPayment->payment->paymentMode->name)
+                                    ({{ $currentOrderPayment->payment->paymentMode->name }})
+                                    @endif
+                                    @endforeach
                                     @else
-                                        -
+                                    -
                                     @endif
                                 </span>
                             </div>
@@ -461,23 +488,23 @@
         </div>
 
         <div class="mt-20">
-			<div style="width: 65%; float: left;">
-				<p class="mt-20" style="font-weight: bold; font-size: 14px;">
+            <div style="width: 65%; float: left;">
+                <p class="mt-20" style="font-weight: bold; font-size: 14px;">
                     {{ $traslations['notes'] }}:
                 </p>
                 <p>{{ $order->notes }}</p>
-			</div>
-			<div style="width: 30%; float: right;">
-				<div class="signertuer">
+            </div>
+            <div style="width: 30%; float: right;">
+                <div class="signertuer">
                     <div>
-                        <span>{{ $traslations['authorized_person'] }}</span>
-                        <img src="{{ $warehouse->signature_url }}"  style="width: 200px; margin-top: 5px;" />
-                        </span>
+                        <!--<span>{{ $traslations['authorized_person'] }}</span>-->
+                        <!--<img src="{{ $warehouse->signature_url }}" style="width: 200px; margin-top: 5px;" />-->
+                        <!--</span>-->
                     </div>
                 </div>
-			</div>
-			<div class="clearfix"></div>
-		</div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
 
 
         <div class="divider"></div>
@@ -487,10 +514,10 @@
                     <span style="font-weight: bold;">{{ $traslations['terms_condition'] }}</span>
                     <p>{!! $warehouse->terms_condition !!}</p>
                 </td>
-                <td style="width: 50%; vertical-align:top;">
-                    <span style="font-weight: bold;">{{ $traslations['bank_details'] }}</span>
-                    <p>{!! $warehouse->bank_details !!}</p>
-                </td>
+                <!--<td style="width: 50%; vertical-align:top;">-->
+                <!--    <span style="font-weight: bold;">{{ $traslations['bank_details'] }}</span>-->
+                <!--    <p>{!! $warehouse->bank_details !!}</p>-->
+                <!--</td>-->
             </tr>
         </table>
 
