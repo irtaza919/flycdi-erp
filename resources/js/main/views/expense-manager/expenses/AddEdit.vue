@@ -112,7 +112,7 @@
                 </a-col>
                 <a-col :xs="24" :sm="24" :md="12" :lg="12">
                     <a-form-item
-                        :label="$t('expense.amount')"
+                        :label="$t('expense.without_vat_amount')"
                         name="amount"
                         :help="rules.amount ? rules.amount.message : null"
                         :validateStatus="rules.amount ? 'error' : null"
@@ -122,7 +122,7 @@
                             v-model:value="newFormData.amount"
                             :placeholder="
                                 $t('common.placeholder_default_text', [
-                                    $t('expense.amount'),
+                                    $t('expense.without_vat_amount'),
                                 ])
                             "
                             min="0"
@@ -137,7 +137,31 @@
             </a-row>
 
             <a-row :gutter="16">
-                <a-col :xs="24" :sm="24" :md="24" :lg="24">
+                <a-col :xs="24" :sm="24" :md="12" :lg="12">
+                    <a-form-item
+                        :label="$t('expense.with_vat_amount')"
+                        name="vat_amount"
+                        :help="rules.vat_amount ? rules.vat_amount.message : null"
+                        :validateStatus="rules.vat_amount ? 'error' : null"
+                        class="required"
+                    >
+                        <a-input-number
+                            v-model:value="newFormData.vat_amount"
+                            :placeholder="
+                                $t('common.placeholder_default_text', [
+                                    $t('expense.with_vat_amount'),
+                                ])
+                            "
+                            min="0"
+                            style="width: 100%"
+                        >
+                            <template #addonBefore>
+                                {{ appSetting.currency.symbol }}
+                            </template>
+                        </a-input-number>
+                    </a-form-item>
+                </a-col>
+                <a-col :xs="24" :sm="24" :md="12" :lg="12">
                     <a-form-item
                         :label="$t('expense.bill')"
                         name="bill"

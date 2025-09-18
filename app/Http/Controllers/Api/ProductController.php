@@ -367,6 +367,7 @@ class ProductController extends ApiBaseController
         $warehouse = warehouse();
         $searchTerm = trim(strtolower($request->search_term));
         $orderType = $request->order_type;
+        $priceType = $request->priceType;
         $warehouseId = $warehouse->id;
 
         $products = Product::select('products.id', 'products.name', 'products.image', 'products.unit_id', 'products.product_type')
@@ -420,7 +421,12 @@ class ProductController extends ApiBaseController
                     $unitPrice = $productDetails->purchase_price;
                     $taxType = $productDetails->purchase_tax_type;
                 } else if ($orderType == 'sales' || $orderType == 'sales-returns' || $orderType == 'quotations') {
-                    $unitPrice = $productDetails->sales_price;
+                    if ($priceType == 'wholesale') {
+                        $unitPrice = $productDetails->whole_sale_price;
+                    } else {
+                        $unitPrice = $productDetails->sales_price;
+                    }
+                    // $unitPrice = $productDetails->sales_price;
                     $taxType = $productDetails->sales_tax_type;
                 }
 
@@ -458,7 +464,7 @@ class ProductController extends ApiBaseController
                     'x_unit_id'    =>  Hashids::encode($product->unit_id),
                     'unit'    =>  $unit,
                     'unit_price'    =>  $unitPrice,
-                    'whole_sale_price'    =>  $product->whole_sale_price,
+                    'whole_sale_price'    =>  $productDetails->whole_sale_price,
                     'single_unit_price'    =>  $singleUnitPrice,
                     'subtotal'    =>  $subTotal,
                     'quantity'    =>  1,

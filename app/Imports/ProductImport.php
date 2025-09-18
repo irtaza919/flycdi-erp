@@ -26,42 +26,49 @@ class ProductImport implements ToArray, WithHeadingRow
             $pendingChildren = [];
 
             foreach ($products as $product) {
-                $isChild = isset($product['parent_id']) && trim($product['parent_id']) !== '';
+                $parentItemCode = isset($product['parent_item_code']) ? trim($product['parent_item_code']) : '';
 
-                if (!$isChild) {
-                    $productId = $this->createProduct($product, $user, null);
+                if ($parentItemCode === '') {
+                    // This is either a single product or a parent variable product
+                    $productId = $this->createOrUpdateProduct($product, $user, null);
                     $productMap[trim($product['item_code'])] = $productId;
                 } else {
+                    // This is a child product
                     $pendingChildren[] = $product;
                 }
             }
 
+            // Now process children after all parents are in the DB
             foreach ($pendingChildren as $product) {
-                $parentCode = trim($product['parent_id']);
+                $parentCode = trim($product['parent_item_code']);
                 $parentId = $productMap[$parentCode] ?? null;
 
                 if (!$parentId) {
                     throw new ApiException("Parent with item_code '{$parentCode}' not found for child '{$product['name']}'");
                 }
 
-                $this->createProduct($product, $user, $parentId);
+                $this->createOrUpdateProduct($product, $user, $parentId);
             }
         });
     }
 
-    private function createProduct($product, $user, $parentId = null)
+    private function createOrUpdateProduct($product, $user, $parentId = null)
     {
-        foreach (['name', 'barcode_symbology', 'item_code', 'parent_item_code', 'product_type', 'description', 'category', 'brand', 'unit', 'tax', 'mrp', 'purchase_price', 'sales_price', 'whole_sale_price', 'purchase_tax_type', 'sales_tax_type', 'stock_quantitiy_alert', 'opening_stock', 'opening_stock_date', 'wholesale_price', 'wholesale_quantity'] as $field) {
+        foreach ([
+            'name', 'item_code', 'barcode_symbology', 'unit', 'category', 'brand', 'tax',
+            'mrp', 'purchase_price', 'sales_price', 'purchase_tax_type', 'sales_tax_type',
+            'stock_quantitiy_alert', 'opening_stock', 'opening_stock_date', 'wholesale_price', 'wholesale_quantity'
+        ] as $field) {
             if (!array_key_exists($field, $product)) {
                 throw new ApiException('Field missing from header: ' . $field);
             }
         }
 
         $productName = trim($product['name']);
-        $productType = trim($product['product_type']);
-        $parentItemCode = trim($product['parent_item_code']);
         $barcodeSymbology = trim($product['barcode_symbology']);
         $itemCode = trim($product['item_code']);
+        $parentItemCode = isset($product['parent_item_code']) ? trim($product['parent_item_code']) : '';
+        $productType = isset($product['product_type']) ? trim($product['product_type']) : 'single';
         $openingStockDate = trim($product['opening_stock_date']);
         $stockQuantityAlert = trim($product['stock_quantitiy_alert']);
         $openingStock = trim($product['opening_stock']);
@@ -124,8 +131,7 @@ class ProductImport implements ToArray, WithHeadingRow
             }
         }
 
-        // Check if product already exists
-        $existingProduct = Product::where('item_code', $itemCode)->first();
+        // If parent_item_code exists but parentId is null, find it
         if ($parentItemCode !== '' && !$parentId) {
             $parent = Product::where('item_code', $parentItemCode)->first();
             if (!$parent) {
@@ -134,11 +140,12 @@ class ProductImport implements ToArray, WithHeadingRow
             $parentId = $parent->id;
         }
 
+        // Check if product already exists
+        $existingProduct = Product::where('item_code', $itemCode)->first();
+
         if ($existingProduct) {
-            // UPDATE
             $newProduct = $existingProduct;
         } else {
-            // CREATE
             $newProduct = new Product();
             $newProduct->item_code = $itemCode;
         }
@@ -160,8 +167,8 @@ class ProductImport implements ToArray, WithHeadingRow
         $mrp = $this->sanitizePrice($product['mrp']);
         $purchasePrice = $this->sanitizePrice($product['purchase_price']);
         $salesPrice = $this->sanitizePrice($product['sales_price']);
-        $wholesalePrice = $this->sanitizePrice($product['wholesale_price']);
-        $wholeSalePrice = $this->sanitizePrice($product['whole_sale_price']);
+        $wholesalePrice = $this->sanitizePrice($wholesalePrice);
+        $wholeSalePrice = isset($product['whole_sale_price']) ? $this->sanitizePrice($product['whole_sale_price']) : null;
 
         foreach ($allWarehouses as $allWarehouse) {
             $productDetails = ProductDetails::where('warehouse_id', $allWarehouse->id)

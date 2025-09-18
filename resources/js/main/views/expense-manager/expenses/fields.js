@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n";
 const fields = () => {
     const { t } = useI18n();
     const addEditUrl = "expenses";
-    const url = ref("expenses?fields=id,xid,bill,bill_url,expense_category_id,x_expense_category_id,expenseCategory{id,xid,name},amount,user_id,x_user_id,user{id,xid,name},notes,date");
+    const url = ref("expenses?fields=id,xid,bill,bill_url,expense_category_id,x_expense_category_id,expenseCategory{id,xid,name},amount,vat_amount,user_id,x_user_id,user{id,xid,name},notes,date");
     const hashableColumns = ['user_id', 'expense_category_id'];
 
     const preFetchData = reactive({
@@ -15,6 +15,7 @@ const fields = () => {
     const initData = {
         expense_category_id: undefined,
         amount: "",
+        vat_amount: "",
         bill: undefined,
         bill_url: undefined,
         date: undefined,
@@ -31,6 +32,11 @@ const fields = () => {
         {
             title: t("expense.amount"),
             dataIndex: "amount",
+            sorter:true
+        },
+        {
+            title: t("expense.vat_amount"),
+            dataIndex: "vat_amount",
             sorter:true
         },
         {

@@ -471,7 +471,7 @@
 				<div class="signertuer">
                     <div>
                         <span>Authorized person</span>
-                        <img src="{{ $warehouse->signature_url }}"  style="width: 200px; margin-top: 5px;" />
+                        <!-- <img src="{{ $warehouse->signature_url }}"  style="width: 200px; margin-top: 5px;" /> -->
                         </span>
                     </div>
                 </div>

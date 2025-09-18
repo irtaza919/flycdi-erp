@@ -230,7 +230,8 @@ export default defineComponent({
     setup() {
         const { addEditRequestAdmin, loading, rules } = apiAdmin();
         const { globalSetting, appType } = common();
-        const loginBackground = globalSetting.value.login_image_url;
+        // const loginBackground = globalSetting.value.login_image_url;
+        const loginBackground = "/images/login-bg.jpg";
         const store = useStore();
         const router = useRouter();
         const resetPassword = ref(true);
